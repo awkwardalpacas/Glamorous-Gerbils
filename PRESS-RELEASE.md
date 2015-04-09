@@ -19,22 +19,22 @@ Once the project moves into development, the press release can be used as a touc
 ## NomNow ##
 <!--  > Name the product in a way the reader (i.e. your target customers) will understand. -->
 
-## Discover wait times at restaraunts before you go ##
+## Discover wait times at restaurants before you go ##
 <!--  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title. -->
 
-## NomNow give you a map of nearby eateries with a quick indication of wait-times, to help you decide where to go. When you have a limited time to eat, use NomNow to discover and avoid the line when you can't wait. ##
+## NomNow gives you a map of nearby eateries with a quick indication of wait-times, to help you decide where to go. When you have a limited time to eat, use NomNow to discover and avoid the line when you can't wait. ##
 <!--  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good. -->
 
-## The scenario : You have a busy day, full of meetings and work. You have an hour for lunch. You take 15 minutes to get to your favorite sandwich shop, only to find a line out the door! Thats a quarter of your lunch hour gone, and now you have to pick smoeplace else. With NowNow you would have known about the line beforehand, and picked someplace with a shorter wait. ##
+## The scenario : You have a busy day, full of meetings and work. You have an hour for lunch. You take 15 minutes to get to your favorite sandwich shop, only to find a line out the door! That's a quarter of your lunch hour gone, and now you have to pick someplace else. With NomNow you would have known about the line beforehand, and picked someplace with a shorter wait. ##
 <!--  > Describe the problem your product solves. -->
 
-## NomNow gives a simple map view to show eateries nearby with a quick indicator of wait times, and an easy way to report on those wait times.  ##
+## NomNow gives a simple map view to show eateries nearby with a quick indicator of wait times, and an easy way to report those wait times.  ##
 <!--  > Describe how your product elegantly solves the problem. -->
 
 ## Your time is valuable, use NomNow to select the shortest lines when you are in a hurry ##
 <!--  > A quote from a spokesperson in your company. -->
 
-## Just go to (URL TBD) with your computer or device and click or touch on a location on the map to see reported wait times. ##
+## Just go to (URL TBD) with your computer or device and click or touch a location on the map to see reported wait times. ##
 <!--  > Describe how easy it is to get started. -->
 
 ## Jay Random, a busy dude : 'NomNow saved me from waiting most of my lunch hour for a burrito at the Burrito Hut. I saw the wait was too long that day at a glance and had a sandwich from Sandwich Planet instead, where there was a much shorter line. It was awesome!' ##

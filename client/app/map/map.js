@@ -6,8 +6,12 @@ angular.module('nomNow.map', [])
     Map.createMap();
   }
 
-  createMap();
+  var findWaitTimes = function() {
+    Map.findWaitTimes();
+  }
 
+  createMap();
+  findWaitTimes();
 
 })
 

@@ -1,4 +1,4 @@
-angular.module('nomNow.map', ['ui.bootstrap',ui-bootstrap-tpls.js])
+angular.module('nomNow.map', ['ui.bootstrap'])
 
 
 .controller('mapController', function ($scope, $location, $q, Map) {

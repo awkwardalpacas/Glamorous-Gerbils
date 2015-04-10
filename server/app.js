@@ -1,8 +1,10 @@
 var express = require('express');
 var app = express();
 
-app.get('/', function (req, res) {
-  res.send('received a GET request at /. This will eventually serve the map');
+app.get('/wait', function (req, res) {
+  res.send('received a GET request at /wait. This will eventually ask the database
+    for the wait times based for the restaurants in that area and then send them back
+    to Angular.');
 });
 
 app.get('/reports', function (req, res) {

@@ -12,10 +12,15 @@ angular.module('nomNow.services', [])
   var createMap = function () {
   var promise = this.getPosition();
     promise.then(function (latLong) {
-          mapOptions.center.lat = latLong.coords.latitude;
-          mapOptions.center.lng = latLong.coords.longitude;
+          latLong = new google.maps.LatLng(latLong.coords.latitude, latLong.coords.longitude)
+          mapOptions.center = latLong;
           console.log(mapOptions)
           var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+          var marker = new google.maps.Marker({
+            position: latLong,
+            map: map,
+            title: 'You are here'
+          })
       });
   }
 

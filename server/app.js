@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 app.get('/wait', function (req, res) {
   // This will eventually ask the database for the wait times from all restaurants
@@ -21,7 +23,34 @@ app.get('/wait', function (req, res) {
 
 app.post('/wait', function (req, res) {
   // This will eventually accept a wait time from Angular and add it to the database.
-  res.send('received a POST request at /wait.');
+  var data = req.body.data;
+
+  /*
+  expecting this format for req.body:
+
+  {
+    data: {
+      google_id: "ChIJz7o2jgm1RIYRi_5Y7JfjH0A",
+      name: "Perry's Steakhouse & Grille",
+      longitude: -97.74351200000001,
+      latitude: 30.269557,
+      wait: 28
+    }
+  }
+
+  */
+
+  if (
+    data.google_id === undefined ||
+    data.name      === undefined ||
+    data.longitude === undefined ||
+    data.latitude  === undefined ||
+    data.wait      === undefined
+    ) {
+    res.sendStatus(400); // bad request
+  } else {
+    res.sendStatus(200);
+  }
 });
 
 app.use('/', express.static('client'));

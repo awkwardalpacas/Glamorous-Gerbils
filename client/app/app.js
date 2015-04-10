@@ -11,7 +11,7 @@ angular.module('nomNow', [
       controller: 'mapController'
     })
     .when ('/report', {
-      templateUrl: 'scripts/actors/actors.html',
+      templateUrl: 'app/report/report.html',
       controller: 'actorController'
     })
     .otherwise({

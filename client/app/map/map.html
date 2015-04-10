@@ -1,10 +1,22 @@
 <div class = "container">
 <h1>NomNow</h1>
 <nav class = "navbar navbar-default">
-  <button type = "button" class="btn btn-default navbar-btn">Report Wait Time</button>
+<div ng-controller="modalctrl">
+  <button type = "button" class="btn btn-default navbar-btn" ng-click="reportpage()">Report Wait Time</button>
+   <script type="text/ng-template" id="Report.html">
+   <div class="modal-header">
+    <h3> Report Wait time</h3>
+   </div>
+   <div class="modal-body">
+     {{items}}
+   </div>
+   <div class="modal-footer">
+      <button ng-click="ok()">OK</button>
+   </div>
+  </script>
+</div>
 </nav>
 <div class="container-fluid">
 <div id="map-canvas"></div>
 </div>
-
 </div>

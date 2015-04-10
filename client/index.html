@@ -3,7 +3,8 @@
  <head>
     <meta charset="utf-8" />
     <title>NomNow</title>
-
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaxWRFAzzptD0stlNDcirs1otuXpT_Cls">
+    </script>
     <link rel="stylesheet" type="text/css" href = "bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
 
@@ -12,10 +13,11 @@
     <h1>NomNow</h1>
 
     <div ng-controller = "mapController">
+<div id="map-canvas" style="width: 100%; height: 100%"></div>
+
     </div>
     <!-- <div ng-view></div> -->
 
-    <script src =
     <script src = "./bower_components/angular/angular.js"></script>
     <script src="./bower_components/angular-route/angular-route.js"></script>
     <script src = "app/services.js"></script>

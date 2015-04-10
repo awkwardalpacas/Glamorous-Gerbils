@@ -35,8 +35,19 @@ angular.module('nomNow.services', [])
     return deferred.promise;
   }
 
+  var findWaitTimes = function() {
+    return $http({
+      method: 'GET',
+      url: '/wait'
+    })
+    .then (function (resp) {
+      return resp.body;
+    })
+  }
+
   return {
     createMap: createMap,
     getPosition: getPosition,
+    findWaitTimes: findWaitTimes
   }
 })

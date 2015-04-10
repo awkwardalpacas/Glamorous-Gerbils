@@ -2,14 +2,13 @@ angular.module('nomNow.services', [])
 
 
 .factory('Map', function ($http) {
+    var mapOptions = {
+      zoom: 8,
+      center: {lat: 30.269687, lng: -97.742586},
+    };
 
   var createMap = function () {
-    var position = (new google.maps.LatLong(30.269687, -97.742586));
-    var MapOptions = {
-      zoom: 8,
-      center: position,
-    };
-    var map = new goole.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   }
 
   return {

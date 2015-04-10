@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app = "nomNow">
  <head>
     <meta charset="utf-8" />
     <title>NomNow</title>
@@ -12,16 +12,14 @@
   <body>
     <h1>NomNow</h1>
 
-    <div ng-controller = "mapController">
-<div id="map-canvas" style="width: 100%; height: 100%"></div>
-
     </div>
-    <!-- <div ng-view></div> -->
+    <div ng-view></div>
 
     <script src = "./bower_components/angular/angular.js"></script>
     <script src="./bower_components/angular-route/angular-route.js"></script>
-    <script src = "app/services.js"></script>
     <script src = "app/app.js"></script>
+    <script src = "app/map/map.js"> </script>
+    <script src = "app/services.js"></script>
 
 
 

@@ -1,12 +1,13 @@
 angular.module('nomNow', [
   'nomNow.services',
+  'nomNow.map',
  'ngRoute'
 ])
 
 .config(function($routeProvider) {
   $routeProvider
     .when('/map', {
-      templateUrl: './map/map.html',
+      templateUrl: 'app/map/map.html',
       controller: 'mapController'
     })
     .when ('/report', {

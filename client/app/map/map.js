@@ -5,6 +5,7 @@ angular.module('nomNow.map', [])
   var createMap = function() {
     Map.createMap();
   }
+
   createMap();
 
 })

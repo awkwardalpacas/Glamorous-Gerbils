@@ -12,11 +12,7 @@ app.post('/wait', function (req, res) {
     from Angular and add it to the database.');
 });
 
-app.post('/reports', function (req, res) {
-  res.send('received a POST request at /reports');
-});
-
-app.use('/static', express.static('client'));
+app.use('/', express.static('client'));
 
 var server = app.listen(3000, function () {
 

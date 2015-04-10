@@ -2,16 +2,18 @@ angular.module('nomNow.map', [])
 
 
 .controller('mapController', function ($scope, $location, $q, Map) {
-  var createMap = function() {
-    Map.createMap();
+  $scope.createMap = function() {
+    return Map.createMap();
   }
 
-  var findWaitTimes = function() {
-    Map.findWaitTimes();
+  $scope.findWaitTimes = function() {
+    Map.findWaitTimes($scope)
   }
 
-  createMap();
-  findWaitTimes();
+  $scope.createMap()
+    .then(function() {
+      $scope.findWaitTimes()
+    })
 
 })
 

@@ -93,7 +93,7 @@ angular.module('nomNow.services', [])
           place = locations[key][1]
             getDistanceFromLatLonInKm(mylat, mylong, coords["k"], coords["D"],
             function(dis){
-              if(currentLowest===null||currentLowest<dis){
+              if(currentLowest===null||currentLowest>dis){
                 currentLowest = dis;
                 currentRestraunt = place;
                 currentid = key;

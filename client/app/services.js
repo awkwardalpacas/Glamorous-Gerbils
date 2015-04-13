@@ -79,17 +79,24 @@ angular.module('nomNow.services', [])
           origin: new google.maps.Point(0,0),
           anchor: new google.maps.Point(10,34)
         }
-
-
-
         var marker = new google.maps.Marker({
             position: coords,
             map: map,
             icon: image,
             shape: shape
         });
+        displayInfo (marker, place);
       }
     })
+  }
+
+  var displayInfo = function (marker, place) {
+    var infowindow = new google.maps.InfoWindow({
+      content: place.name
+    })
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(marker.get('map'), marker);
+    });
   }
 
   return {
@@ -98,6 +105,7 @@ angular.module('nomNow.services', [])
     getPosition: getPosition,
     findWaitTimes: findWaitTimes,
     fetchWaitTimes: fetchWaitTimes,
-    getRestaurantLocation: getRestaurantLocation
+    getRestaurantLocation: getRestaurantLocation,
+    displayInfo: displayInfo
   }
 })

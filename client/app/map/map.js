@@ -43,7 +43,7 @@ angular.module('nomNow.map', ['ui.bootstrap'])
   Map.getClosestRestaurant(function(value){
     console.log('name',value['name'])
     $scope.items = value['name'];
-    console.log($scope.items)
+    $scope.$digest()
   })
   // Map.getRestaurantLocation("ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",function(coords,place){
   //   console.log(coords,place)

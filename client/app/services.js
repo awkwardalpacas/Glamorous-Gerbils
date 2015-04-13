@@ -56,6 +56,7 @@ angular.module('nomNow.services', [])
   }
   var getUrl = function (wait) {
     var hexColor = wait <= 20 ? '3FA71C' : wait <=40 ? 'E4fE09' : 'E21E1F';
+    wait = wait < 60 ? wait : '60+';
     return 'http://www.googlemapsmarkers.com/v1/' + wait + '/' + hexColor + '/';
   }
 
@@ -64,15 +65,19 @@ angular.module('nomNow.services', [])
     var service = new google.maps.places.PlacesService(map);
     var wait = wait-(wait%5);
     var waitUrl = getUrl(wait);
+    var shape = {
+      coords : [1,1,21,1,10,34],
+      type: 'poly'
+    }
     service.getDetails(request, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
 
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D)
         var image = {
           url : waitUrl,
-          size: new google.maps.Size(50,50),
+          size: new google.maps.Size(21,34),
           origin: new google.maps.Point(0,0),
-          anchor: new google.maps.Point(25,50)
+          anchor: new google.maps.Point(10,34)
         }
 
 
@@ -80,7 +85,8 @@ angular.module('nomNow.services', [])
         var marker = new google.maps.Marker({
             position: coords,
             map: map,
-            icon: image
+            icon: image,
+            shape: shape
         });
       }
     })

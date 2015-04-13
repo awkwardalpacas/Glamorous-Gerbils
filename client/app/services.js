@@ -47,7 +47,6 @@ angular.module('nomNow.services', [])
       url: '/wait'
     })
     .then (function (resp) {
-      console.log('inside', resp.data)
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i].google_id, resp.data[i].wait);
@@ -55,21 +54,26 @@ angular.module('nomNow.services', [])
       return resp.data;
     })
   }
+  var getUrl = function (wait) {
+    var hexColor = wait <= 20 ? '3FA71C' : wait <=40 ? 'E4fE09' : 'E21E1F';
+    return 'http://www.googlemapsmarkers.com/v1/' + wait + '/' + hexColor + '/';
+  }
 
   var getRestaurantLocation = function(id, wait) {
     var request = {placeId : id};
     var service = new google.maps.places.PlacesService(map);
     var wait = wait-(wait%5);
+    var waitUrl = getUrl(wait);
     service.getDetails(request, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
+
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D)
         var image = {
-          url : './images/'+wait+'.jpg',
+          url : waitUrl,
           size: new google.maps.Size(50,50),
           origin: new google.maps.Point(0,0),
           anchor: new google.maps.Point(25,50)
         }
-        console.log(image.url)
 
 
 
@@ -78,7 +82,6 @@ angular.module('nomNow.services', [])
             map: map,
             icon: image
         });
-        // createMarker(map, coords, name);
       }
     })
   }

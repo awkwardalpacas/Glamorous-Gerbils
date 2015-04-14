@@ -158,7 +158,8 @@ angular.module('nomNow.services', [])
   var displayInfo = function (marker, place, wait, elapsed) {
     var infowindow = new google.maps.InfoWindow({
       content: '<p>' + place.name+'<br />Wait time is ' + wait +
-      ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>'
+      ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
+      '<a href = "' + place.website + '">' + place.website+ '</a>'
     })
     google.maps.event.addListener(marker, 'click', function() {
       infowindow.open(marker.get('map'), marker);

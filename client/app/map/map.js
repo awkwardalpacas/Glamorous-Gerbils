@@ -18,7 +18,7 @@ angular.module('nomNow.map', ['ui.bootstrap'])
 })
 
 
-.controller("modalctrl", ["$scope","$modal",function ($scope,$modal,$log) {
+.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,$log,Map) {
   $scope.items = "rusty bar"
   $scope.reportpage= function(){
     var modalInstance = $modal.open({
@@ -31,19 +31,27 @@ angular.module('nomNow.map', ['ui.bootstrap'])
         }
       }
   })
-    //dont know why bug docs say to use this
     modalInstance.result.then(function(selectedItem){
-
       $scope.selected= selectedItem;
       },function(){
         $log.info('Modal dismissed at: ' + new Date());
-    })
-    console.log('click works')
+    }) 
   }
 }])
-.controller('ModalInstanceCtrl',["$scope","$modalInstance",function ($scope, $modalInstance, items){
+.controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',function ($scope, $modalInstance, Map){
+  $scope.items="Loading..."
+  Map.getClosestRestaurant(function(value){
+    console.log('name',value['name'])
+    $scope.items = value['name'];
+    $scope.$digest()
+  })
+  // Map.getRestaurantLocation("ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",function(coords,place){
+  //   console.log(coords,place)
 
-  $scope.items=items;
+  // })
+  //  Map.getPosition().then(function(value){
+  //   console.log(value.coords.latitude, value.coords.longitude);
+  // }); 
   $scope.ok=function(){
     $modalInstance.close()
   }

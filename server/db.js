@@ -56,7 +56,7 @@ exports.init = function(){
 };
 
 exports.getLatestAvgWaitAtLocation = function(locationID){
-  avgWaitQuery = 'SELECT AVG(wait_time) FROM reports WHERE google_id=?;';
+  avgWaitQuery = 'SELECT (ROUND( AVG(wait_time)/5,0)*5) FROM reports WHERE google_id=?;';
   return exports.dbQueryParams(avgWaitQuery,locationID);
 }
 

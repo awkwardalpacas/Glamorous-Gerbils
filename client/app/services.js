@@ -76,6 +76,7 @@ angular.module('nomNow.services', [])
       type: 'poly'
     }
     service.getDetails(request, function (place, status) {
+      /// edited for callback
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D)
         var name = place.name
@@ -111,6 +112,7 @@ angular.module('nomNow.services', [])
     var currentLowest = null;
     var currentRestaurant = null;
     var currentid=null
+	  var loc = null;
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude
@@ -124,12 +126,13 @@ angular.module('nomNow.services', [])
                 currentLowest = dis;
                 currentRestaurant = place;
                 currentid = key;
+                loc =coords
               }
         })
       }
     })
         setTimeout(function(){
-        var closest = {name:currentRestaurant , google_id:currentid}
+        var closest = {name:currentRestaurant , google_id:currentid,location:loc}
         cb(closest);
         }, 1000)
   }

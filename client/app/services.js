@@ -104,7 +104,8 @@ angular.module('nomNow.services', [])
     var mylong = null;
     var currentLowest = null;
     var currentRestraunt = null;
-    var currentid=null
+    var currentid=null;
+    var loc = null;
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude
@@ -118,12 +119,13 @@ angular.module('nomNow.services', [])
                 currentLowest = dis;
                 currentRestraunt = place;
                 currentid = key;
+                loc =coords
               }
         })
       } 
     })
         setTimeout(function(){
-        var closest = {name:currentRestraunt , google_id:currentid}
+        var closest = {name:currentRestraunt , google_id:currentid,location:loc}
         cb(closest);
         }, 1000)
   }

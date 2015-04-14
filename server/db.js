@@ -20,7 +20,7 @@ if(!err) {
 
 
 
-dbQuery = function(querystring, cb){
+var dbQuery = function(querystring, cb){
   connection.query(querystring, function(err, rows, fields) {
     if (!err){
       cb(rows);
@@ -30,7 +30,7 @@ dbQuery = function(querystring, cb){
   });
 };
 
-dbQueryParams = function(querystring, params, cb){
+var dbQueryParams = function(querystring, params, cb){
   connection.query(querystring, params, function(err, rows, fields) {
     if (!err){
       cb(rows);
@@ -60,23 +60,49 @@ exports.init = function(cb){
   });
 };
 
-exports.getLatestAvgWaitAtLocation = function(locationID,cb){
-  avgWaitQuery = 'SELECT (ROUND( AVG(wait_time)/5,0)*5) FROM reports WHERE google_id=?;';
-  dbQueryParams(avgWaitQuery,locationID,function(err,rows){
-    cb(err,rows);
+var getAvgWait = function(obj){
+  for(k in obj){
+    return obj[k];
+  }
+}
+
+exports.getLatestAvgWaitAtLocation = function(locationID){
+  avgWaitQuery = 'SELECT ROUND(AVG(reports.wait_time)/5,0)*5 FROM reports WHERE google_id=?;';
+  // dbQueryParams(avgWaitQuery,[locationID],function(err,rows){
+  //   getAvgWait(rows);
+  // });
+  var query = connection.query(avgWaitQuery,[locationID],function(error,results,fields){
+    if(error){
+      console.log(error);
+    }else if(results){
+      return function(){
+        getAvgWait(results[0]); 
+      }
+    }
   });
 }
 
-exports.isRestaurantInDB = function(locationID,cb){
+
+var checkInDB = function(err,rows){
+  if(rows[0]){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+exports.getAllRestaurants = function(cb){
+  var getAllQuery = 'SELECT * FROM restaurants;';
+  dbQuery(getAllQuery,function(err,rows){
+    cb(err,rows);
+  })
+}
+
+exports.isRestaurantInDB = function(locationID,checkInDB){
   var existsQuery = 'SELECT EXISTS(SELECT * FROM restaurants WHERE google_id=?);';
   dbQueryParams(existsQuery,locationID,function(err,rows){
-    cb(err,rows);
+    checkInDB(err,rows);
   });
-  // if(dbQueryParams(existsQuery,locationID)){
-  //   return true;
-  // }else{
-  //   return false;
-  // }
 }
 
 exports.addReport = function(locationID,waitTime,name,lon,lat,cb){
@@ -142,5 +168,8 @@ exports.addSeedRestaurants(function(err,rows){
 exports.addSeedReports(function(err,rows){
   console.log('addSeedReports : err - rows',err,rows);
 });
+
+
+console.log('exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY") = ',exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY"));
 
 connection.end();

@@ -9,3 +9,10 @@ width: 100%;
 
 .container {
 }
+
+.custombody{
+  text-align: center;
+}
+p{
+  margin: 20px;
+}

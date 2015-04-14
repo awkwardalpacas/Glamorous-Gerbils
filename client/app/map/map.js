@@ -42,16 +42,10 @@ angular.module('nomNow.map', ['ui.bootstrap'])
   $scope.items="Loading..."
   Map.getClosestRestaurant(function(value){
     console.log('name',value['name'])
-    $scope.items = value['name'];
+    $scope.items = "Closest restraunt "+value['name'];
     $scope.$digest()
   })
-  // Map.getRestaurantLocation("ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",function(coords,place){
-  //   console.log(coords,place)
-
-  // })
-  //  Map.getPosition().then(function(value){
-  //   console.log(value.coords.latitude, value.coords.longitude);
-  // }); 
+ 
   $scope.ok=function(){
     $modalInstance.close()
   }

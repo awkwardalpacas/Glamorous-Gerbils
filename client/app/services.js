@@ -9,7 +9,7 @@ angular.module('nomNow.services', [])
     zoom: 15,
     center: {}
   };
-  var locations={};
+  var privwindow = false;
 
   var createMarker = function(map, coords, name) {
       return new google.maps.Marker({
@@ -83,7 +83,6 @@ angular.module('nomNow.services', [])
         if(cb){
           cb(coords,place.name);
         }else{
-        locations[restaurant.google_id]=[coords,place.name]
 
         var image = {
           url : waitUrl,
@@ -179,6 +178,8 @@ angular.module('nomNow.services', [])
       '<a href = "' + place.website + '">' + place.website+ '</a>'
     })
     google.maps.event.addListener(marker, 'click', function() {
+      if(privwindow){privwindow.close()}
+       privwindow = infowindow;
       infowindow.open(marker.get('map'), marker);
     });
   }

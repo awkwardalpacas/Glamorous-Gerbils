@@ -50,6 +50,7 @@ angular.module('nomNow.services', [])
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
+        console.log(resp.data[i])
       }
       return resp.data;
     })
@@ -69,7 +70,7 @@ angular.module('nomNow.services', [])
   var getRestaurantLocation = function(restaurant, cb) {
     var request = {placeId : restaurant.google_id};
     var service = new google.maps.places.PlacesService(map);
-    var wait = restaurant.wait-(restaurant.wait%5);
+    var wait = restaurant.wait_time-(restaurant.wait_time%5);
     var waitUrl = getWaitTimeMarkerUrl(wait);
     var shape = {
       coords : [1,1,21,1,10,34],
@@ -96,7 +97,7 @@ angular.module('nomNow.services', [])
             icon: image,
             shape: shape
         });
-        var elapsed = getElapsedTime(restaurant.timestamp)
+        var elapsed = getElapsedTime(restaurant.created_at)
         displayInfo (marker, place, wait, elapsed);
       }
       }

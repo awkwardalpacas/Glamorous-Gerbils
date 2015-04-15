@@ -3,88 +3,147 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-/* TODO : change for deployment! */  
+/* TODO : change for deployment! */
   host     : 'localhost',
   user     : 'root',
   password : '',
   database : ''
 });
+var avgWait;
 
 connection.connect(function(err){
 if(!err) {
-    console.log('Database is connected ... \n\n');  
+    console.log('Database is connected ... \n\n');
 } else {
-    console.log('Error connecting database ... \n\n');  
+    console.log('Error connecting database ... \n\n');
 }
 });
 
-
-
-exports.dbQuery = function(querystring){
+var dbQuery = function(querystring, cb){
   connection.query(querystring, function(err, rows, fields) {
-    
-
     if (!err){
-      return rows;
+      cb(err, rows);
     }else{
       console.log('Error while performing Query.');
-    }  
+    }
   });
 };
 
-exports.dbQueryParams = function(querystring, params){
+var dbQueryParams = function(querystring, params, cb){
   connection.query(querystring, params, function(err, rows, fields) {
-    
     if (!err){
-      return rows;
+      cb(err, rows);
     }else{
       console.log('Error while performing Query.',err);
-    }  
+    }
   });
 };
 
-exports.init = function(){
-  // create database 
-  var createDB = 'CREATE DATABASE IF NOT EXISTS nomNow;';
-  exports.dbQuery(createDB);
-  // use nomNow;
-  exports.dbQuery('USE nomNow;');
-  var createTblRestaurants = 'CREATE TABLE IF NOT EXISTS restaurants (google_id varchar(255) NOT NULL,name varchar(255) NOT NULL,longitude double precision NOT NULL,latitude double precision NOT NULL,PRIMARY KEY(google_id));';
-  exports.dbQuery(createTblRestaurants);
-  var createTblReports = 'CREATE TABLE IF NOT EXISTS reports (id int NOT NULL auto_increment,google_id varchar(255) NOT NULL,wait_time int NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(id),FOREIGN KEY(google_id) REFERENCES restaurants(google_id));';
-  exports.dbQuery(createTblReports);
-};
-
-exports.getLatestAvgWaitAtLocation = function(locationID){
-  avgWaitQuery = 'SELECT AVG(wait_time) FROM reports WHERE google_id=?;';
-  return exports.dbQueryParams(avgWaitQuery,locationID);
+// NO OP callback to pass to functions where we are not very interested in the results
+var cbNoOp = function(err,rows){
+  // NO OP 
 }
 
-exports.isRestaurantInDB = function(locationID){
-  var existsQuery = 'SELECT EXISTS(SELECT * FROM restaurants WHERE google_id=?);';
-  if(exports.dbQueryParams(existsQuery,locationID)){
+exports.init = function(cb){
+  // create database
+  var createDB = 'CREATE DATABASE IF NOT EXISTS nomnow;';
+  dbQuery(createDB,function(err,rows){
+    cb(err,rows);
+  });
+  // use nomNow;
+  dbQuery('USE nomnow;',function(err,rows){
+    cb(err,rows);
+  });
+  var createTblRestaurants = 'CREATE TABLE IF NOT EXISTS restaurants (google_id varchar(255) NOT NULL,name varchar(255) NOT NULL,longitude double precision NOT NULL,latitude double precision NOT NULL,PRIMARY KEY(google_id));';
+  dbQuery(createTblRestaurants,function(err,rows){
+    cb(err,rows);
+  });
+  var createTblReports = 'CREATE TABLE IF NOT EXISTS reports (id int NOT NULL auto_increment,google_id varchar(255) NOT NULL,wait_time int NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(id),FOREIGN KEY(google_id) REFERENCES restaurants(google_id));';
+  dbQuery(createTblReports,function(err,rows){
+    cb(err,rows);
+  });
+};
+
+var getAvgWait = function(obj){
+  for(k in obj){
+    return obj[k];
+  }
+}
+
+exports.getLatestAvgWaitAtLocation = function(locationID, cb){
+  avgWaitQuery = 'SELECT ROUND(AVG(reports.wait_time)/5,0)*5 FROM reports WHERE google_id=?;';
+  var query = connection.query(avgWaitQuery,[locationID],function(error,results,fields){
+    if(error){
+      console.log(error);
+    }else if(results){
+        avgWait = getAvgWait(results[0]);
+        cb(avgWait, locationID);
+    }
+  });
+}
+
+
+var checkInDB = function(err,rows){
+  if(rows[0]){
     return true;
   }else{
     return false;
   }
 }
 
+exports.getAllRestaurants = function(cb){
+  var getAllQuery = 'SELECT * FROM restaurants;';
+  dbQuery(getAllQuery,function(err,rows){
+    cb(err,rows);
+  })
+}
+
+exports.isRestaurantInDB = function(locationID){
+  var existsQuery = 'SELECT EXISTS(SELECT * FROM restaurants WHERE google_id=?);';
+  dbQueryParams(existsQuery,locationID,function(err,rows){
+    if(err){
+      console.log('ERROR : ', err);
+    }else{
+      //console.log('isRestaurantInDB : rows[0]',rows[0]);
+      for(var k in rows[0]){
+        return rows[0][k];
+      }
+    }
+  });
+}
+
 exports.addReport = function(locationID,waitTime,name,lon,lat){
   var reportQuery = 'INSERT INTO reports (google_id, wait_time) VALUES (?,?);';
   var params = [locationID,waitTime];
   if(exports.isRestaurantInDB(locationID)){
-    // NO OP    
+    // NO OP
   }else{
-    exports.addRestaurant(name,locationID,lon,lat);    
+    exports.addRestaurant(name,locationID,lon,lat);
   }
-  exports.dbQueryParams(reportQuery,params);
+  dbQueryParams(reportQuery,params, function (err, rows){
+    if (err) {
+      console.log('Adding report error');
+    }
+  });
 }
 
 exports.addRestaurant = function(name,g_id,lon,lat){
   // ignore duplicates or error
   var addQuery = 'INSERT IGNORE INTO restaurants (name,google_id,longitude,latitude) VALUES (?,?,?,?);';
   var params = [name,g_id,lon,lat];
-  exports.dbQueryParams(addQuery,params);
+  dbQueryParams(addQuery,params,function(err,rows){
+    if (err) {
+      console.log('Add Restaurant error')
+    }
+  });
+}
+
+exports.getLatestReportTimestampById = function(g_id,cb){
+  var getLatestQuery = 'SELECT created_at FROM reports WHERE google_id=? AND created_at = (SELECT MAX(created_at) FROM reports) LIMIT 1';
+  var params = g_id;
+  dbQueryParams(getLatestQuery,params,function(err,rows){
+    cb(err,rows);
+  });
 }
 
 exports.addSeedRestaurants = function(){
@@ -96,7 +155,7 @@ exports.addSeedRestaurants = function(){
   exports.addRestaurant("Athenian Bar & Grill","ChIJ0YsSvwm1RIYRN6TKC9_caXo",-97.74303099999997,30.268397);
   exports.addRestaurant("Ruth's Chris Steak House","ChIJWQDHxwm1RIYRJmu_M83GQlI",-97.743493,30.268038);
   exports.addRestaurant("Quattro Gatti Ristorante e Pizzeria","ChIJBZ8SDAq1RIYRr_FM1PoH68A",-97.74195099999997,30.271327);
-  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072);  
+  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072);
 }
 
 exports.addSeedReports = function(){
@@ -121,8 +180,27 @@ exports.addSeedReports = function(){
 
 }
 
-exports.init();
-exports.addSeedRestaurants();
-exports.addSeedReports();
+exports.init(cbNoOp);
+exports.addSeedRestaurants(cbNoOp);
+exports.addSeedReports(cbNoOp);
 
+
+exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY", function (results, locationID) {
+  //console.log('Average wait for ID ' + locationID + ' is ', results, ' minutes.')
+});
+
+exports.getAllRestaurants(function(err,results){
+  console.log('getAllRestaurants : results',results);
+  //if(!err){return results;}
+})
+
+exports.getLatestReportTimestampById("ChIJ-yElAAq1RIYRiJYnsvPyhUY",function(err,rows){
+  if(err){
+      console.log('ERROR : ', err);
+    }else{
+      for(var k in rows[0]){
+        console.log('latest timestamp for "ChIJ-yElAAq1RIYRiJYnsvPyhUY" = ',rows[0][k]);
+      }
+    }
+});
 connection.end();

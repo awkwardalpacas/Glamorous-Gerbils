@@ -64,7 +64,7 @@ var getAvgWait = function(obj){
   }
 }
 
-exports.getLatestAvgWaitAtLocation = function(locationID){
+exports.getLatestAvgWaitAtLocation = function(locationID, cb){
   avgWaitQuery = 'SELECT ROUND(AVG(reports.wait_time)/5,0)*5 FROM reports WHERE google_id=?;';
   // dbQueryParams(avgWaitQuery,[locationID],function(err,rows){
   //   getAvgWait(rows);
@@ -74,8 +74,7 @@ exports.getLatestAvgWaitAtLocation = function(locationID){
       console.log(error);
     }else if(results){
         avgWait = getAvgWait(results[0]);
-        console.log('Average wait for ID ' + locationID + ' is ', avgWait, ' minutes.')
-
+        cb(avgWait, locationID);
     }
   });
 }
@@ -168,6 +167,7 @@ exports.addSeedRestaurants();
 exports.addSeedReports();
 
 
-exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY");
-
+exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY", function (results, locationID) {
+  console.log('Average wait for ID ' + locationID + ' is ', results, ' minutes.')
+});
 connection.end();

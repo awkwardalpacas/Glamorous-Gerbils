@@ -22,19 +22,19 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
 .controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',"$http",function ($scope, $modalInstance, Map, $http){
   $scope.items="Loading..."
   $scope.waittime={};
-  var restraunt;
+  var restaurant;
   Map.getClosestRestaurant(function(value){
     console.log(value)
-    restraunt=value;
-    $scope.items = "Closest restraunt "+value['name'];
+    restaurant=value;
+    $scope.items = "Closest restaurant "+value['name'];
     $scope.$digest()
   })
   $scope.waittime.inputs ='30'
   $scope.ok=function(){
-    var info= {data:{google_id:restraunt.google_id,
-      name:restraunt.name,
-      longitude: restraunt.location["D"],
-      latitude: restraunt.location["k"],
+    var info= {data:{google_id:restaurant.google_id,
+      name:restaurant.name,
+      longitude: restaurant.location["D"],
+      latitude: restaurant.location["k"],
       'wait':$scope.waittime.inputs}}
     console.log(info)
     $http({

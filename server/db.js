@@ -41,7 +41,7 @@ var dbQueryParams = function(querystring, params, cb){
 
 // NO OP callback to pass to functions where we are not very interested in the results
 var cbNoOp = function(err,rows){
-  // NO OP 
+  // NO OP
 }
 
 exports.init = function(cb){
@@ -203,4 +203,6 @@ exports.getLatestReportTimestampById("ChIJ-yElAAq1RIYRiJYnsvPyhUY",function(err,
       }
     }
 });
-connection.end();
+
+// TODO: figure out where to end the connection
+// connection.end();

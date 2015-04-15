@@ -23,7 +23,7 @@ app.get('/wait', function (req, res) {
 });
 
 app.post('/wait', function (req, res) {
-  // This will eventually accept a wait time from Angular and add it to the database.
+  // This accepts info from Angular and adds a report and restaurant record to the database.
   var data = req.body.data;
 
   /*
@@ -50,6 +50,8 @@ app.post('/wait', function (req, res) {
     ) {
     res.sendStatus(400); // bad request
   } else {
+    db.addReport(data.google_id, data.wait, data.name, data.longitude, data.latitude);
+    db.addRestaurant(data.name, data.google_id, data.longitude, data.latitude);
     res.sendStatus(200);
   }
 });

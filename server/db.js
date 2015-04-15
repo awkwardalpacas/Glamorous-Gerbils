@@ -129,16 +129,16 @@ exports.addRestaurant = function(name,g_id,lon,lat){
   });
 }
 
-exports.addSeedRestaurants = function(cb){
-  exports.addRestaurant("Perry's Steakhouse & Grille","ChIJz7o2jgm1RIYRi_5Y7JfjH0A",-97.74351200000001,30.269557,cb);
-  exports.addRestaurant("Roaring Fork","ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",-97.74213199999997,30.269059,cb);
-  exports.addRestaurant("Subway","ChIJ-yElAAq1RIYRiJYnsvPyhUY",-97.741557,30.270183,cb);
-  exports.addRestaurant("Chipotle Mexican Grill","ChIJf9x0-Qm1RIYRR9RPGWhe9Tg",-97.74174600000003,30.27,cb);
-  exports.addRestaurant("Cozzoli's Pizza","ChIJl_CT7Qm1RIYRmiQYoWVnXp8",-97.742658,30.269329,cb);
-  exports.addRestaurant("Athenian Bar & Grill","ChIJ0YsSvwm1RIYRN6TKC9_caXo",-97.74303099999997,30.268397,cb);
-  exports.addRestaurant("Ruth's Chris Steak House","ChIJWQDHxwm1RIYRJmu_M83GQlI",-97.743493,30.268038,cb);
-  exports.addRestaurant("Quattro Gatti Ristorante e Pizzeria","ChIJBZ8SDAq1RIYRr_FM1PoH68A",-97.74195099999997,30.271327,cb);
-  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072,cb);
+exports.addSeedRestaurants = function(){
+  exports.addRestaurant("Perry's Steakhouse & Grille","ChIJz7o2jgm1RIYRi_5Y7JfjH0A",-97.74351200000001,30.269557);
+  exports.addRestaurant("Roaring Fork","ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",-97.74213199999997,30.269059);
+  exports.addRestaurant("Subway","ChIJ-yElAAq1RIYRiJYnsvPyhUY",-97.741557,30.270183);
+  exports.addRestaurant("Chipotle Mexican Grill","ChIJf9x0-Qm1RIYRR9RPGWhe9Tg",-97.74174600000003,30.27);
+  exports.addRestaurant("Cozzoli's Pizza","ChIJl_CT7Qm1RIYRmiQYoWVnXp8",-97.742658,30.269329);
+  exports.addRestaurant("Athenian Bar & Grill","ChIJ0YsSvwm1RIYRN6TKC9_caXo",-97.74303099999997,30.268397);
+  exports.addRestaurant("Ruth's Chris Steak House","ChIJWQDHxwm1RIYRJmu_M83GQlI",-97.743493,30.268038);
+  exports.addRestaurant("Quattro Gatti Ristorante e Pizzeria","ChIJBZ8SDAq1RIYRr_FM1PoH68A",-97.74195099999997,30.271327);
+  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072);
 }
 
 exports.addSeedReports = function(){

@@ -19,11 +19,11 @@ if(!err) {
 }
 });
 
-
-
-var dbQuery = function(querystring){
+var dbQuery = function(querystring, cb){
   connection.query(querystring, function(err, rows, fields) {
-    if (err){
+    if (!err){
+      cb(err, rows);
+    }else{
       console.log('Error while performing Query.');
     }
   });
@@ -39,11 +39,17 @@ var dbQueryParams = function(querystring, params, cb){
   });
 };
 
+// NO OP callback to pass to functions where we are not very interested in the results
+var cbNoOp = function(err,rows){
+  // NO OP 
+}
 
-exports.init = function(){
+exports.init = function(cb){
   // create database
   var createDB = 'CREATE DATABASE IF NOT EXISTS nomnow;';
-  dbQuery(createDB);
+  dbQuery(createDB,function(err,rows){
+    cb(err,rows);
+  });
   // use nomNow;
   dbQuery('USE nomnow;',function(err,rows){
     cb(err,rows);
@@ -66,9 +72,6 @@ var getAvgWait = function(obj){
 
 exports.getLatestAvgWaitAtLocation = function(locationID, cb){
   avgWaitQuery = 'SELECT ROUND(AVG(reports.wait_time)/5,0)*5 FROM reports WHERE google_id=?;';
-  // dbQueryParams(avgWaitQuery,[locationID],function(err,rows){
-  //   getAvgWait(rows);
-  // });
   var query = connection.query(avgWaitQuery,[locationID],function(error,results,fields){
     if(error){
       console.log(error);
@@ -98,7 +101,14 @@ exports.getAllRestaurants = function(cb){
 exports.isRestaurantInDB = function(locationID){
   var existsQuery = 'SELECT EXISTS(SELECT * FROM restaurants WHERE google_id=?);';
   dbQueryParams(existsQuery,locationID,function(err,rows){
-    checkInDB(err,rows);
+    if(err){
+      console.log('ERROR : ', err);
+    }else{
+      //console.log('isRestaurantInDB : rows[0]',rows[0]);
+      for(var k in rows[0]){
+        return rows[0][k];
+      }
+    }
   });
 }
 
@@ -125,6 +135,14 @@ exports.addRestaurant = function(name,g_id,lon,lat){
     if (err) {
       console.log('Add Restaurant error')
     }
+  });
+}
+
+exports.getLatestReportTimestampById = function(g_id,cb){
+  var getLatestQuery = 'SELECT created_at FROM reports WHERE google_id=? AND created_at = (SELECT MAX(created_at) FROM reports) LIMIT 1';
+  var params = g_id;
+  dbQueryParams(getLatestQuery,params,function(err,rows){
+    cb(err,rows);
   });
 }
 
@@ -162,12 +180,27 @@ exports.addSeedReports = function(){
 
 }
 
-exports.init();
-exports.addSeedRestaurants();
-exports.addSeedReports();
+exports.init(cbNoOp);
+exports.addSeedRestaurants(cbNoOp);
+exports.addSeedReports(cbNoOp);
 
 
 exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY", function (results, locationID) {
-  console.log('Average wait for ID ' + locationID + ' is ', results, ' minutes.')
+  //console.log('Average wait for ID ' + locationID + ' is ', results, ' minutes.')
+});
+
+exports.getAllRestaurants(function(err,results){
+  console.log('getAllRestaurants : results',results);
+  //if(!err){return results;}
+})
+
+exports.getLatestReportTimestampById("ChIJ-yElAAq1RIYRiJYnsvPyhUY",function(err,rows){
+  if(err){
+      console.log('ERROR : ', err);
+    }else{
+      for(var k in rows[0]){
+        console.log('latest timestamp for "ChIJ-yElAAq1RIYRiJYnsvPyhUY" = ',rows[0][k]);
+      }
+    }
 });
 connection.end();

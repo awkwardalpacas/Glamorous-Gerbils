@@ -3,49 +3,47 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-/* TODO : change for deployment! */  
+/* TODO : change for deployment! */
   host     : 'localhost',
   user     : 'root',
   password : '',
   database : ''
 });
+var avgWait;
 
 connection.connect(function(err){
 if(!err) {
-    console.log('Database is connected ... \n\n');  
+    console.log('Database is connected ... \n\n');
 } else {
-    console.log('Error connecting database ... \n\n');  
+    console.log('Error connecting database ... \n\n');
 }
 });
 
 
 
-var dbQuery = function(querystring, cb){
+var dbQuery = function(querystring){
   connection.query(querystring, function(err, rows, fields) {
-    if (!err){
-      cb(rows);
-    }else{
+    if (err){
       console.log('Error while performing Query.');
-    }  
+    }
   });
 };
 
 var dbQueryParams = function(querystring, params, cb){
   connection.query(querystring, params, function(err, rows, fields) {
     if (!err){
-      cb(rows);
+      cb(err, rows);
     }else{
       console.log('Error while performing Query.',err);
-    }  
+    }
   });
 };
 
-exports.init = function(cb){
-  // create database 
+
+exports.init = function(){
+  // create database
   var createDB = 'CREATE DATABASE IF NOT EXISTS nomnow;';
-  dbQuery(createDB,function(err,rows){
-    cb(err,rows);
-  });
+  dbQuery(createDB);
   // use nomNow;
   dbQuery('USE nomnow;',function(err,rows){
     cb(err,rows);
@@ -75,9 +73,9 @@ exports.getLatestAvgWaitAtLocation = function(locationID){
     if(error){
       console.log(error);
     }else if(results){
-      return function(){
-        getAvgWait(results[0]); 
-      }
+        avgWait = getAvgWait(results[0]);
+        console.log('Average wait for ID ' + locationID + ' is ', avgWait, ' minutes.')
+
     }
   });
 }
@@ -98,30 +96,36 @@ exports.getAllRestaurants = function(cb){
   })
 }
 
-exports.isRestaurantInDB = function(locationID,checkInDB){
+exports.isRestaurantInDB = function(locationID){
   var existsQuery = 'SELECT EXISTS(SELECT * FROM restaurants WHERE google_id=?);';
   dbQueryParams(existsQuery,locationID,function(err,rows){
     checkInDB(err,rows);
   });
 }
 
-exports.addReport = function(locationID,waitTime,name,lon,lat,cb){
+exports.addReport = function(locationID,waitTime,name,lon,lat){
   var reportQuery = 'INSERT INTO reports (google_id, wait_time) VALUES (?,?);';
   var params = [locationID,waitTime];
-  if(exports.isRestaurantInDB(locationID,cb)){
-    // NO OP    
+  if(exports.isRestaurantInDB(locationID)){
+    // NO OP
   }else{
-    exports.addRestaurant(name,locationID,lon,lat,cb);    
+    exports.addRestaurant(name,locationID,lon,lat);
   }
-  dbQueryParams(reportQuery,params,cb);
+  dbQueryParams(reportQuery,params, function (err, rows){
+    if (err) {
+      console.log('Adding report error');
+    }
+  });
 }
 
-exports.addRestaurant = function(name,g_id,lon,lat,cb){
+exports.addRestaurant = function(name,g_id,lon,lat){
   // ignore duplicates or error
   var addQuery = 'INSERT IGNORE INTO restaurants (name,google_id,longitude,latitude) VALUES (?,?,?,?);';
   var params = [name,g_id,lon,lat];
   dbQueryParams(addQuery,params,function(err,rows){
-    cb(err, rows);
+    if (err) {
+      console.log('Add Restaurant error')
+    }
   });
 }
 
@@ -134,42 +138,36 @@ exports.addSeedRestaurants = function(cb){
   exports.addRestaurant("Athenian Bar & Grill","ChIJ0YsSvwm1RIYRN6TKC9_caXo",-97.74303099999997,30.268397,cb);
   exports.addRestaurant("Ruth's Chris Steak House","ChIJWQDHxwm1RIYRJmu_M83GQlI",-97.743493,30.268038,cb);
   exports.addRestaurant("Quattro Gatti Ristorante e Pizzeria","ChIJBZ8SDAq1RIYRr_FM1PoH68A",-97.74195099999997,30.271327,cb);
-  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072,cb);  
+  exports.addRestaurant("Jimmy John's","ChIJoQKzBAq1RIYR9vDjI9c6QZs",-97.742526,30.27072,cb);
 }
 
-exports.addSeedReports = function(cb){
+exports.addSeedReports = function(){
   //addReport = function(locationID,waitTime,name,lon,lat)
   // Jimmy John's
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072,cb);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",45,"Jimmy John's",-97.742526,30.27072,cb);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",20,"Jimmy John's",-97.742526,30.27072,cb);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",35,"Jimmy John's",-97.742526,30.27072,cb);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",15,"Jimmy John's",-97.742526,30.27072,cb);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072,cb);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",45,"Jimmy John's",-97.742526,30.27072);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",20,"Jimmy John's",-97.742526,30.27072);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",35,"Jimmy John's",-97.742526,30.27072);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",15,"Jimmy John's",-97.742526,30.27072);
+  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
   // Subway
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",15,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",5,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",3,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",7,"Subway",-97.741557,30.270183,cb);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",2,"Subway",-97.741557,30.270183,cb);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",15,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",5,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",3,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",7,"Subway",-97.741557,30.270183);
+  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",2,"Subway",-97.741557,30.270183);
   // Austin Club
-  exports.addReport("ChIJ-b18sKC1RIYRiDl8W83nAW0",10,"Austin Club",-97.74091900000002,30.270743,cb);
+  exports.addReport("ChIJ-b18sKC1RIYRiDl8W83nAW0",10,"Austin Club",-97.74091900000002,30.270743);
 
 }
 
-exports.init(function(err,rows){
-  console.log('init : err - rows',err,rows);
-});
-exports.addSeedRestaurants(function(err,rows){
-  console.log('addSeedRestaurants : err - rows',err,rows);
-});
-exports.addSeedReports(function(err,rows){
-  console.log('addSeedReports : err - rows',err,rows);
-});
+exports.init();
+exports.addSeedRestaurants();
+exports.addSeedReports();
 
 
-console.log('exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY") = ',exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY"));
+exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY");
 
 connection.end();

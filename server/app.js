@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var db = require('./db.js')
 app.use(bodyParser.json());
 
 app.get('/wait', function (req, res) {
@@ -55,7 +56,7 @@ app.post('/wait', function (req, res) {
 
 app.use('/', express.static('client'));
 
-var server = app.listen(3000, function () {
+var server = app.listen(8000, function () {
 
   var host = server.address().address;
   var port = server.address().port;

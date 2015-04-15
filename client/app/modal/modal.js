@@ -1,17 +1,13 @@
 nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,$log,Map) {
-  $scope.items = "rusty bar"
   $scope.reportpage= function(){
+    // the modal is a popup below is a tamplate feature of angular.
     var modalInstance = $modal.open({
       templateUrl: 'Report.html',
       controller: 'ModalInstanceCtrl',
       size: 'lr',
-      resolve: {
-        items: function () {
-          return $scope.itmes ;
-
-        }
-      }
+      
   })
+    //the angular docs required this step. the popup does not work without this
     modalInstance.result.then(function(selectedItem){
       $scope.selected= selectedItem;
       },function(){
@@ -19,7 +15,9 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     }) 
   }
 }])
+
 .controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',"$http",function ($scope, $modalInstance, Map, $http){
+  // loading exists till it finds the closest 
   $scope.items="Loading..."
   $scope.waittime={};
   var restaurant;
@@ -30,6 +28,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     $scope.$digest()
   })
   $scope.waittime.inputs ='30'
+  // on ok the function makes a "POST" request to the server.
   $scope.ok=function(){
     var info= {data:{google_id:restaurant.google_id,
       name:restaurant.name,
@@ -44,6 +43,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     })
     $modalInstance.close()
   }
+  // no does not do anyting. just cuts off any actions.
   $scope.no=function(){
     $modalInstance.close()
   }

@@ -75,5 +75,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
       data: info
       
     })
+    $modalInstance.close();
   }
+
 }])

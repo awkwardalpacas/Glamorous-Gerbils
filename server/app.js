@@ -24,7 +24,14 @@ app.get('/wait', function (req, res) {
 
 app.post('/wait', function (req, res) {
   // This will eventually accept a wait time from Angular and add it to the database.
-  var data = req.body.data;
+  var data = {
+      google_id: "5555555555",
+      name: "Test restaurant",
+      longitude: -55.55555555,
+      latitude: 55.269557,
+      wait: 55
+    }
+  // var data = req.body.data;
 
   /*
   expecting this format for req.body:

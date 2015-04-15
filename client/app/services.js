@@ -117,11 +117,22 @@ angular.module('nomNow.services', [])
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude
-    //
-      for(var key in locations){
-          coords = locations[key][0]
-          place = locations[key][1]
+      var pyrmont = new google.maps.LatLng(mylat, mylong)
+      var request = {
+          location: pyrmont,
+          radius: 500,
+          types: ['restaurant']
+        };
+      // api request that gets closest places.
+      var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, function(value){
+        //looping the result to find closet restaurant
+          for(var x =0 ; x<value.length; x++){
+            var coords = value[x]['geometry']['location'];
+            var place = value[x]['name']
+            var key = value[x]['place_id']
             getDistanceFromLatLonInKm(mylat, mylong, coords["k"], coords["D"],
+            //after calculating distance in helper below this function compares the lowest distance.
             function(dis){
               if(currentLowest===null||currentLowest>dis){
                 currentLowest = dis;
@@ -129,13 +140,15 @@ angular.module('nomNow.services', [])
                 currentid = key;
                 loc =coords
               }
-        })
-      }
+            })
+          }
+          //set time out lets us wait till data is processed
+          setTimeout(function(){
+          var closest = {name:currentRestaurant , google_id:currentid,location:loc}
+          cb(closest);
+          }, 1000)
+        });
     })
-        setTimeout(function(){
-        var closest = {name:currentRestaurant , google_id:currentid,location:loc}
-        cb(closest);
-        }, 1000)
   }
 
   ////////////helper functions

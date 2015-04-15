@@ -15,7 +15,9 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     }) 
   }
 }])
+
 .controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',"$http",function ($scope, $modalInstance, Map, $http){
+  // loading exists till it finds the closest 
   $scope.items="Loading..."
   $scope.waittime={};
   var restaurant;
@@ -26,6 +28,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     $scope.$digest()
   })
   $scope.waittime.inputs ='30'
+  // on ok the function makes a "POST" request to the server.
   $scope.ok=function(){
     var info= {data:{google_id:restaurant.google_id,
       name:restaurant.name,
@@ -40,6 +43,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     })
     $modalInstance.close()
   }
+  // no does not do anyting. just cuts off any actions.
   $scope.no=function(){
     $modalInstance.close()
   }

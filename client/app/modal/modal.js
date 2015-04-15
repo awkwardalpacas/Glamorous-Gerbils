@@ -1,17 +1,13 @@
 nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,$log,Map) {
-  $scope.items = "rusty bar"
   $scope.reportpage= function(){
+    // the modal is a popup below is a tamplate feature of angular.
     var modalInstance = $modal.open({
       templateUrl: 'Report.html',
       controller: 'ModalInstanceCtrl',
       size: 'lr',
-      resolve: {
-        items: function () {
-          return $scope.itmes ;
-
-        }
-      }
+      
   })
+    //the angular docs required this step. the popup does not work without this
     modalInstance.result.then(function(selectedItem){
       $scope.selected= selectedItem;
       },function(){

@@ -106,17 +106,18 @@ angular.module('nomNow.services', [])
 ////////////  Modal needed function to pass on restaurant data
 
   var getClosestRestaurant = function (cb){
-
+    // temp vars to find closest restaurant
     var mylat = null;
     var mylong = null;
     var currentLowest = null;
     var currentRestaurant = null;
     var currentid=null
 	  var loc = null;
+    // getting current location to compare
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude
-
+    //
       for(var key in locations){
           coords = locations[key][0]
           place = locations[key][1]

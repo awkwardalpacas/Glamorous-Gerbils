@@ -9,3 +9,21 @@ width: 100%;
 
 .container {
 }
+
+.custombody{
+  text-align: center;
+}
+p{
+  margin: 20px;
+}
+.waittext{
+  font-size: 20px
+}
+.customfoot{
+  text-align: center;
+}
+
+.customfoot button{
+  margin-right: 15%;
+  margin-left: 15%;
+}

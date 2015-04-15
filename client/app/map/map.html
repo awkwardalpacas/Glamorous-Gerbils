@@ -7,11 +7,18 @@
    <div class="modal-header">
     <h3> Report Wait time</h3>
    </div>
-   <div class="modal-body">
-     {{items}}
+   <div class="modal-body" >
+      <div class = 'custombody'>
+       <p>{{items}}</p><br>
+       <span class= "waittext">{{waittime.inputs}} minutes</span>
+       <p>Enter your wait time: <input  ng-model = "waittime.inputs"  type="range" min="0" max="60" value="30" step="5"></p>
+      </div>
    </div>
    <div class="modal-footer">
-      <button ng-click="ok()">OK</button>
+      <div class ="customfoot">
+        <button ng-click="ok()" class= 'btn btn-primary btn-lg active'>OK</button>
+        <button ng-click= "no()" class ='btn btn-primary btn-lg active'>Cancel</button>
+      </div>
    </div>
   </script>
 </div>

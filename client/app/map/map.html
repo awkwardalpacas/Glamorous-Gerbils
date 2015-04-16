@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -9,58 +9,53 @@
       </button>
       <a class="navbar-brand" href="#/map">NomNow</a>
     </div>
-    <div id="navbar" class="collapse navbar-collapse">
+    <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#/map">Home</a></li>
-        <li><a href="#/map">Sign Up</a></li>
-        <li><a href="#/map">Sign In</a></li>
+        <!-- <li class="active"><a href="#/map">Home</a></li> -->
+<!--         <li><a href="#/map">About</a></li>
+        <li><a href="#/map">Contact</a></li>
+ -->      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <li ng-controller="modalctrl">
+        <button type = "button" class="btn btn-lg btn-primary navbar-btn navbar-nav navbar-right" ng-click="reportpage()">Report Wait Time</button>
+      <!--  Below is the script for the popup window. activated by the button above-->
+         <script type="text/ng-template" id="Report.html">
+
+          <div class="modal-header">
+            <div class = "custombody">
+              <h3> Report Wait time</h3>
+            </div>
+           </div>
+           <div class="modal-body" >
+              <div class = 'custombody'>
+               <p>{{items}}</p><br>
+                  <div ng-style='buttons'>
+                    <button ng-click="yes()" class= 'btn btn-primary btn active'>Yes</button>
+                    <button ng-click= "no()" class ='btn btn-primary btn active'>No</button>
+                  </div>
+                  <div ng-style = "manual">
+                    <input ng-model = "manualinput" type="text/html">
+                    <button ng-click="ok()" class = 'btn btn-primary btn active'>ok</button>
+                  </div>
+                <br><br>
+               <span class= "waittext">{{waittime.inputs}} minutes</span>
+               <p>Enter your wait time: <input  ng-model = "waittime.inputs"  type="range" min="0" max="60" value="30" step="5"></p>
+              </div>
+           </div>
+           <div class="modal-footer">
+              <div class ="customfoot">
+                 <button ng-click= "submit()" class ='btn btn-primary btn active'>Submit</button>
+                 <button ng-click= "cancel()" class ='btn btn-primary btn active'>Cancel</button>
+              </div>
+          </div>
+        </script>
+      </li>
+
       </ul>
     </div><!--/.nav-collapse -->
-  </div>
+  </div><!--/.container-fluid -->
 </nav>
-
-<div class = 'container'>
-  <div class="jumbotron">
-    <h1>NomNow</h1>
-    <p class="lead">Skip the lines, not the lunch.</p>
-    <div ng-controller="modalctrl">
-      <button type = "button" class="btn btn-lg btn-primary" ng-click="reportpage()">Report Wait Time</button>
-    <!--  Below is the script for the popup window. activated by the button above-->
-       <script type="text/ng-template" id="Report.html">
-
-        <div class="modal-header">
-          <div class = "custombody">
-            <h3> Report Wait time</h3>
-          </div>
-         </div>
-         <div class="modal-body" >
-            <div class = 'custombody'>
-             <p>{{items}}</p><br>
-                <div ng-style='buttons'>
-                  <button ng-click="yes()" class= 'btn btn-primary btn active'>Yes</button>
-                  <button ng-click= "no()" class ='btn btn-primary btn active'>No</button>
-                </div>
-                <div ng-style = "manual">
-                  <input ng-model = "manualinput" type="text/html">
-                  <button ng-click="ok()" class = 'btn btn-primary btn active'>ok</button>
-                </div>
-              <br><br>
-             <span class= "waittext">{{waittime.inputs}} minutes</span>
-             <p>Enter your wait time: <input  ng-model = "waittime.inputs"  type="range" min="0" max="60" value="30" step="5"></p>
-            </div>
-         </div>
-         <div class="modal-footer">
-            <div class ="customfoot">
-               <button ng-click= "submit()" class ='btn btn-primary btn active'>Submit</button>
-               <button ng-click= "cancel()" class ='btn btn-primary btn active'>Cancel</button>
-            </div>
-        </div>
-      </script>
-    </div>
-  </div>
-
-  <div class="container-fluid">
+<div class = 'container' id= "map-container">
   <div id="map-canvas"></div>
-  </div>
-  </div>
-</div><!-- /.container -->
+  <div class= "under-map"></div>
+</div>

@@ -97,7 +97,7 @@ angular.module('nomNow.services', [])
             icon: image,
             shape: shape
         });
-        var elapsed = getElapsedTime(restaurant.created_at)
+        var elapsed = getElapsedTime(restaurant.most_recent)
         displayInfo (marker, place, wait, elapsed);
       }
       }
@@ -134,7 +134,7 @@ angular.module('nomNow.services', [])
       var service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, function(value){
         //looping the result to find closet restaurant
-          
+
           for(var x =0 ; x<value.length; x++){
             var coords = value[x]['geometry']['location'];
             var place = value[x]['name']

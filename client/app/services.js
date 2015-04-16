@@ -128,7 +128,7 @@ angular.module('nomNow.services', [])
       if(byname){
         var request = {
             location: myloc,
-            radius: 100,
+            radius: 10,
             name:byname
           };
         }

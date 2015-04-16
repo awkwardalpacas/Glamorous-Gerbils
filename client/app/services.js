@@ -70,7 +70,7 @@ angular.module('nomNow.services', [])
   var getRestaurantLocation = function(restaurant, cb) {
     var request = {placeId : restaurant.google_id};
     var service = new google.maps.places.PlacesService(map);
-    var wait = restaurant.wait_time-(restaurant.wait_time%5);
+    var wait = restaurant.avg_wait-(restaurant.avg_wait%5);
     var waitUrl = getWaitTimeMarkerUrl(wait);
     var shape = {
       coords : [1,1,21,1,10,34],

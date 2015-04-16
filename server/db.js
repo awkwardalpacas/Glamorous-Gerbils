@@ -66,11 +66,6 @@ exports.init = function(){
       console.log(err)
     }
   });
-  dbQuery('DROP TABLE reports;', function (err, results) {
-    if (err) {
-      console.log(err)
-    }
-  })
   var createTblReports = 'CREATE TABLE IF NOT EXISTS reports (id int NOT NULL auto_increment,google_id varchar(255) NOT NULL,wait_time int NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(id),FOREIGN KEY(google_id) REFERENCES restaurants(google_id));';
   dbQuery(createTblReports,function(err,rows){
     if (err){
@@ -176,30 +171,30 @@ exports.getLatestReportTimestampById = function(g_id,cb){
   });
 }
 
-exports.addSeedReports = function(){
-  //addReport = function(locationID,waitTime,name,lon,lat)
-  // Jimmy John's
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",45,"Jimmy John's",-97.742526,30.27072);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",20,"Jimmy John's",-97.742526,30.27072);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",35,"Jimmy John's",-97.742526,30.27072);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",15,"Jimmy John's",-97.742526,30.27072);
-  exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
-  // Subway
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",15,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",5,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",3,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",7,"Subway",-97.741557,30.270183);
-  exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",2,"Subway",-97.741557,30.270183);
-  // Austin Club
-  exports.addReport("ChIJ-b18sKC1RIYRiDl8W83nAW0",10,"Austin Club",-97.74091900000002,30.270743);
+// exports.addSeedReports = function(){
+//   //addReport = function(locationID,waitTime,name,lon,lat)
+//   // Jimmy John's
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",45,"Jimmy John's",-97.742526,30.27072);
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",20,"Jimmy John's",-97.742526,30.27072);
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",35,"Jimmy John's",-97.742526,30.27072);
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",15,"Jimmy John's",-97.742526,30.27072);
+//   exports.addReport("ChIJoQKzBAq1RIYR9vDjI9c6QZs",30,"Jimmy John's",-97.742526,30.27072);
+//   // Subway
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",15,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",10,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",5,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",3,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",7,"Subway",-97.741557,30.270183);
+//   exports.addReport("ChIJ-yElAAq1RIYRiJYnsvPyhUY",2,"Subway",-97.741557,30.270183);
+//   // Austin Club
+//   exports.addReport("ChIJ-b18sKC1RIYRiDl8W83nAW0",10,"Austin Club",-97.74091900000002,30.270743);
 
-}
+// }
 
 exports.init();
-exports.addSeedReports();
+//exports.addSeedReports();
 
 
 // exports.getLatestAvgWaitAtLocation("ChIJ-yElAAq1RIYRiJYnsvPyhUY", function (results, locationID) {

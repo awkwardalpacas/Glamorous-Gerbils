@@ -10,6 +10,7 @@ angular.module('nomNow.services', [])
     center: {}
   };
   var privwindow = false;
+  var mapscope
 
   var createMarker = function(map, coords, name) {
       return new google.maps.Marker({
@@ -38,6 +39,8 @@ angular.module('nomNow.services', [])
   }
 
   var findWaitTimes = function($scope) {
+    if($scope){mapscope = $scope;}
+    else{$scope = mapscope};
     this.fetchWaitTimes($scope);
   }
 
@@ -50,7 +53,6 @@ angular.module('nomNow.services', [])
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
-        console.log(resp.data[i])
       }
       return resp.data;
     })
@@ -126,12 +128,13 @@ angular.module('nomNow.services', [])
       if(byname){
         var request = {
             location: myloc,
-            radius: 10,
+            radius: 100,
             name:byname
           };
         }
       // api request that gets closest places.
       var service = new google.maps.places.PlacesService(map);
+      
       service.nearbySearch(request, function(value){
         //looping the result to find closet restaurant
 
@@ -141,19 +144,19 @@ angular.module('nomNow.services', [])
             var key = value[x]['place_id']
             getDistanceFromLatLonInKm(mylat, mylong, coords["k"], coords["D"],
             //after calculating distance in helper below this function compares the lowest distance.
-            function(dis){
-              if(currentLowest===null||currentLowest>dis){
-                currentLowest = dis;
-                currentRestaurant = place;
-                currentid = key;
-                loc =coords
-              }
+              function(dis){
+                if(currentLowest===null||currentLowest>dis){
+                  currentLowest = dis;
+                  currentRestaurant = place;
+                  currentid = key;
+                  loc =coords
+                }
             })
           }
           //set time out lets us wait till data is processed
           setTimeout(function(){
-          var closest = {name:currentRestaurant , google_id:currentid,location:loc}
-          cb(closest);
+            var closest = {name:currentRestaurant , google_id:currentid,location:loc}
+            cb(closest);
           }, 1000)
         });
     })

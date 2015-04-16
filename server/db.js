@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
   host     : process.env.DB_URL,
   user     : process.env.DB_USER,
   password : process.env.DB_PWD,
-  database : ''
+  database : process.env.DB
 });
 var avgWait;
 

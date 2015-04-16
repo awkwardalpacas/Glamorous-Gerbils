@@ -39,6 +39,12 @@ var dbQueryParams = function(querystring, params, cb){
   });
 };
 
+// NO OP callback to pass to functions where we are not very interested in the results
+var cbNoOp = function(err,rows){
+  // NO OP
+}
+
+
 
 exports.init = function(){
   // create database
@@ -86,7 +92,18 @@ exports.getLatestAvgWaitAtLocation = function(locationID, cb){
       console.log(error);
     }else if(results){
         avgWait = getAvgWait(results[0]);
-        cb(avgWait);
+        cb(avgWait, locationID);
+    }
+  });
+}
+
+exports.getAvgWaitsLatestReportAllLocs = function(cb){
+  var complicatedQuery = 'SELECT restaurants.google_id, restaurants.name, ROUND(AVG(reports.wait_time)/5,0)*5 AS avg_wait, (SELECT reports.created_at FROM reports ORDER BY reports.created_at DESC LIMIT 1) AS most_recent FROM restaurants INNER JOIN reports ON restaurants.google_id = reports.google_id GROUP BY restaurants.google_id;';
+  connection.query(complicatedQuery,function(error,results,fields){
+    if(error){
+      console.log('ERROR : ',error);
+    }else if(results){
+      cb(results);
     }
   });
 }
@@ -153,7 +170,7 @@ exports.getLatestReportTimestampById = function(g_id,cb){
   var getLatestQuery = 'SELECT created_at FROM reports WHERE google_id=? AND created_at = (SELECT MAX(created_at) FROM reports) LIMIT 1';
   var params = g_id;
   dbQueryParams(getLatestQuery,params,function(err,rows){
-    if(!err) {
+    if(!err){
       cb(rows);
     }
   });
@@ -194,10 +211,16 @@ exports.addSeedReports();
 //       console.log('ERROR : ', err);
 //     }else{
 //       for(var k in rows[0]){
-//         // console.log('latest timestamp for "ChIJ-yElAAq1RIYRiJYnsvPyhUY" = ',rows[0][k]);
+//         console.log('latest timestamp for "ChIJ-yElAAq1RIYRiJYnsvPyhUY" = ',rows[0][k]);
 //       }
 //     }
 // });
+
+exports.getAvgWaitsLatestReportAllLocs(function(rows){
+  for(var i = 0;i < rows.length;i++){
+    console.log('getAvgWaitsLatestReportAllLocs : rows[i] = ',rows[i].google_id,rows[i].name,rows[i].avg_wait,rows[i].most_recent);
+  }
+});
 
 // TODO: figure out where to end the connection
 // connection.end();

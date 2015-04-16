@@ -4,7 +4,8 @@
   "description": "Skip the lines, not lunch",
   "main": "/server/app.js",
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-node --forceexit spec/*"
+    "test": "./node_modules/.bin/jasmine-node --forceexit spec/*",
+    "postinstall": "bower install"
   },
   "author": "",
   "license": "ISC",

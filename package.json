@@ -4,7 +4,7 @@
   "description": "Skip the lines, not lunch",
   "main": "index.js",
   "scripts": {
-    "test": "spec/*"
+    "test": "./node_modules/.bin/jasmine-node --forceexit spec/*"
   },
   "author": "",
   "license": "ISC",

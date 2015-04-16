@@ -24,7 +24,7 @@ var dbQuery = function(querystring, cb){
     if (!err){
       cb(err, rows);
     }else{
-      console.log('Error while performing Query.');
+      console.log('dbQuery : Error while performing Query.',err);
     }
   });
 };
@@ -34,7 +34,7 @@ var dbQueryParams = function(querystring, params, cb){
     if (!err){
       cb(err, rows);
     }else{
-      console.log('Error while performing Query.',err);
+      console.log('dbQueryParams : Error while performing Query.',err);
     }
   });
 };

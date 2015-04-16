@@ -56,10 +56,15 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
   $scope.ok =function(){
    var n = $scope.manualinput
     Map.getClosestRestaurant(function(value){
+      if(value['name']){
       restaurant=value;
       $scope.items = "Are you  at : "+value['name']+"?";
       $scope.buttons = {'visibility' :"visible"}
       $scope.$digest()
+      }
+      else{
+         $scope.items = "sorry no location found";
+      }
     },n);      
     $scope.manual = {'visibility' :"collapse"}
   }

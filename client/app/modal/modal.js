@@ -46,7 +46,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
   $scope.no=function(){
     $scope.buttons =  {'visibility' :"collapse", "height":"0px","width":"0px"};
     $scope.manual = {'visibility' :"visible"}
-    $scope.items="Enter the place you are at."
+    $scope.items="Tell us where you are."
   }
 
   $scope.cancel=function(){
@@ -64,6 +64,8 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
       }
       else{
          $scope.items = "sorry no location found";
+          $scope.manual = {'visibility' :"visible"}
+          $scope.$digest()
       }
     },n);      
     $scope.manual = {'visibility' :"collapse"}

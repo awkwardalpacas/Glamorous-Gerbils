@@ -83,6 +83,8 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
       url: '/wait',
       data: info
       
+    }).success(function(){
+      Map.findWaitTimes();
     })
     $modalInstance.close();
   }

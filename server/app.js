@@ -8,7 +8,7 @@ app.get('/wait', function (req, res) {
   // This will eventually ask the database for the wait times from all restaurants
   // and then send them back to Angular.
 
-  db.getAllRestaurants (function (results){
+  db.getAvgWaitsLatestReportAllLocs (function (results){
     res.send(results);
   })
 });

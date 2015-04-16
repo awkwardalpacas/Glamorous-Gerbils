@@ -4,9 +4,9 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
 /* TODO : change for deployment! */
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
+  host     : process.env.CLEARDB_DATABASE_URL,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PWD,
   database : ''
 });
 var avgWait;

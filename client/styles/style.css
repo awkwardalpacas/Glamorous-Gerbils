@@ -5,7 +5,9 @@ body {
 .container {
   text-align: center;
 }
-
+.navbar-brand {
+  font-size: 32px;
+}
 .container-fluid {
   background-color: #f8f8f8;
   padding: 0px 0px 84px 0px;

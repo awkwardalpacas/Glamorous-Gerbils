@@ -6,7 +6,7 @@ var app = express();
 app.use('/', express.static('client'));
 app.use(bodyParser.json());
 
-var server = app.listen(process.env.PORT || 8000, function () {
+var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('NomNow server is listening at http://%s:%s', host, port);

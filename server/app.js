@@ -16,6 +16,7 @@ var server = app.listen(process.env.PORT, function () {
 // The client will use that info to make a marker on the map.
 app.get('/wait', function (req, res) {
   db.getAvgWaitsLatestReportAllLocs (function (results){
+    console.log('results',results);
     res.send(results);
   })
 });
@@ -24,7 +25,7 @@ app.get('/wait', function (req, res) {
 // If the data looks good, it add a restaurant and report record.
 app.post('/wait', function (req, res) {
   var data = req.body.data;
-  console.log(data)
+  console.log()
   if (
     data.google_id === undefined ||
     data.name      === undefined ||

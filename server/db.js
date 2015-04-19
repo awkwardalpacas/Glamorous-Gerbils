@@ -13,7 +13,7 @@ var pool = mysql.createPool({
   host     : process.env.DB_URL || 'localhost',
   user     : process.env.DB_USER || 'root',
   password : process.env.DB_PWD || '',
-  database : process.env.DB || ''
+  database : process.env.DB || 'nomnow'
 })
 
 // connection.connect(function(err) {

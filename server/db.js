@@ -161,6 +161,7 @@ exports.isRestaurantInDB = function(locationID){
 };
 
 exports.addReport = function(locationID,waitTime,name,lon,lat){
+  console.log(locationID,waitTime,name,lon,lat)
   var reportQuery = 'INSERT INTO reports (google_id, wait_time) VALUES (?,?);';
   var params = [locationID,waitTime];
   if(exports.isRestaurantInDB(locationID)){

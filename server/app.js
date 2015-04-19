@@ -24,7 +24,7 @@ app.get('/wait', function (req, res) {
 // If the data looks good, it add a restaurant and report record.
 app.post('/wait', function (req, res) {
   var data = req.body.data;
-
+  console.log(data)
   if (
     data.google_id === undefined ||
     data.name      === undefined ||

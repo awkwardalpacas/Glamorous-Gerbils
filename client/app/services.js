@@ -52,9 +52,9 @@ angular.module('nomNow.services', [])
     })
     .then (function (resp) {
       restaurants = resp.data;
-      console.log(restaurants);
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
+      console.log(resp.data[i]);
       }
       return resp.data;
     });

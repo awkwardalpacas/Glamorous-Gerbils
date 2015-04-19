@@ -16,7 +16,6 @@ var server = app.listen(process.env.PORT, function () {
 // The client will use that info to make a marker on the map.
 app.get('/wait', function (req, res) {
   db.getAvgWaitsLatestReportAllLocs (function (results){
-    console.log('results',results);
     res.send(results);
   })
 });

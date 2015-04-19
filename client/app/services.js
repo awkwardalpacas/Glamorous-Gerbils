@@ -10,26 +10,27 @@ angular.module('nomNow.services', [])
     center: {}
   };
   var privwindow = false;
-  var mapscope
-
+  var mapscope;
+  //Creates marker for user's location
   var createMarker = function(map, coords, name) {
       return new google.maps.Marker({
         position: coords,
         map: map,
         title: name
-      })
-  }
-  var createMap = function () {
-      var that=this;
-  var promise = this.getPosition();
-    return promise.then(function (latLong) {
-      latLong = new google.maps.LatLng(latLong.coords.latitude, latLong.coords.longitude)
-      mapOptions.center = latLong;
-         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-      that.createMarker(map, latLong, "You are here")
       });
   }
-
+  //generates the map
+  var createMap = function () {
+    var that=this;
+    var promise = this.getPosition();
+    return promise.then(function (latLong) {
+      latLong = new google.maps.LatLng(latLong.coords.latitude, latLong.coords.longitude);
+      mapOptions.center = latLong;
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      that.createMarker(map, latLong, "You are here");
+    });
+  }
+  //Gets users current position
   var getPosition = function () {
     var deferred = $q.defer();
     navigator.geolocation.getCurrentPosition(function(position){
@@ -43,7 +44,7 @@ angular.module('nomNow.services', [])
     else{$scope = mapscope};
     this.fetchWaitTimes($scope);
   }
-
+  //pulls all the wait times from the reports database
   var fetchWaitTimes = function($scope) {
     return $http({
       method: 'GET',
@@ -55,20 +56,21 @@ angular.module('nomNow.services', [])
         getRestaurantLocation(resp.data[i]);
       }
       return resp.data;
-    })
+    });
   }
+  //generates a marker with correct number and color for each waittime
   var getWaitTimeMarkerUrl = function (wait) {
     var hexColor = wait <= 20 ? '3FA71C' : wait <=40 ? 'E4fE09' : 'E21E1F';
     wait = wait < 60 ? wait : '60+';
     return 'http://www.googlemapsmarkers.com/v1/' + wait + '/' + hexColor + '/';
   }
-
+  //calculates time between right now and the most recent wait time post
   var getElapsedTime = function(timestamp) {
     var now = new Date();
-    var then = new Date(timestamp)
+    var then = new Date(timestamp);
     return Math.round((now-then)/60000);
   }
-
+  //takes in a google places restaurant, generates marker at that location
   var getRestaurantLocation = function(restaurant, cb) {
     var request = {placeId : restaurant.google_id};
     var service = new google.maps.places.PlacesService(map);
@@ -79,31 +81,29 @@ angular.module('nomNow.services', [])
       type: 'poly'
     }
     service.getDetails(request, function (place, status) {
-      /// edited for callback
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D)
-        var name = place.name
+        var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
+        var name = place.name;
         if(cb){
           cb(coords,place.name);
         }else{
-
-        var image = {
-          url : waitUrl,
-          size: new google.maps.Size(21,34),
-          origin: new google.maps.Point(0,0),
-          anchor: new google.maps.Point(10,34)
+          var image = {
+            url : waitUrl,
+            size: new google.maps.Size(21,34),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(10,34)
+          }
+          var marker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: image,
+              shape: shape
+          });
+          var elapsed = getElapsedTime(restaurant.most_recent);
+          displayInfo (marker, place, wait, elapsed);
         }
-        var marker = new google.maps.Marker({
-            position: coords,
-            map: map,
-            icon: image,
-            shape: shape
-        });
-        var elapsed = getElapsedTime(restaurant.most_recent)
-        displayInfo (marker, place, wait, elapsed);
       }
-      }
-    })
+    });
   }
 ////////////  Modal needed function to pass on restaurant data
 
@@ -134,7 +134,7 @@ angular.module('nomNow.services', [])
         }
       // api request that gets closest places.
       var service = new google.maps.places.PlacesService(map);
-      
+
       service.nearbySearch(request, function(value){
         //looping the result to find closet restaurant
 
@@ -182,16 +182,16 @@ angular.module('nomNow.services', [])
   }
 
 
-///////////////////////////////////////////////////
+  //creates the info window that pops up when user clicks on a marker
   var displayInfo = function (marker, place, wait, elapsed) {
     var infowindow = new google.maps.InfoWindow({
       content: '<p>' + place.name+'<br />Wait time is ' + wait +
       ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
       '<a href = "' + place.website + '">' + place.website+ '</a>'
-    })
+    });
     google.maps.event.addListener(marker, 'click', function() {
       if(privwindow){privwindow.close()}
-       privwindow = infowindow;
+      privwindow = infowindow;
       infowindow.open(marker.get('map'), marker);
     });
   }

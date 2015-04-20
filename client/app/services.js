@@ -104,11 +104,6 @@ angular.module('nomNow.services', [])
     var choices =[{dis:null, name:null, google_id:null, loc:null},
                     {dis:null, name:null, google_id:null, loc:null},
                     {dis:null, name:null, google_id:null, loc:null}]
-   //  var currentLowest = null;
-   //  var currentRestaurant = null;
-   //  var currentid=null
-	  // var loc = null;
-    // getting current location to compare
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude
@@ -155,6 +150,7 @@ angular.module('nomNow.services', [])
     })
   }
 
+
   ////////////helper functions
   var deg2rad =function (deg) {
     return deg * (Math.PI/180)
@@ -190,6 +186,12 @@ angular.module('nomNow.services', [])
     });
   }
 
+  var getweb = function(id,cb){
+    var request = {placeId: id};
+      var service = new google.maps.places.PlacesService(map);
+      service.getDetails(request,cb);
+  }
+
   return {
     createMap: createMap,
     createMarker: createMarker,
@@ -198,6 +200,7 @@ angular.module('nomNow.services', [])
     fetchWaitTimes: fetchWaitTimes,
     getRestaurantLocation: getRestaurantLocation,
     getClosestRestaurant:getClosestRestaurant,
-    displayInfo: displayInfo
+    displayInfo: displayInfo,
+    getweb:getweb
   }
 })

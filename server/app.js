@@ -10,7 +10,9 @@ var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('NomNow server is listening at http://%s:%s', host, port);
+  db.init();
 });
+
 
 // This asks the database for the info the client needs.
 // The client will use that info to make a marker on the map.
@@ -35,8 +37,8 @@ app.post('/wait', function (req, res) {
   }
 
   else {
-    db.addReport(data.google_id, data.wait, data.name, data.longitude, data.latitude);
-    db.addRestaurant(data.name, data.google_id, data.longitude, data.latitude);
+    db.addReport(data.google_id, data.wait, data.name, data.website, data.longitude, data.latitude);
+    db.addRestaurant(data.name, data.website, data.google_id, data.longitude, data.latitude);
     res.sendStatus(200);
   }
 });

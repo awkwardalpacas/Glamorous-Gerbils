@@ -53,15 +53,18 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
       longitude: $scope.restaurant[0].location["D"],
       latitude: $scope.restaurant[0].location["k"],
       'wait':$scope.waittime.inputs}};
-      console.log(info);
-    $http({
-      method: 'POST',
-      url: '/wait',
-      data: info
-    }).success(function(){
-      console.log('success')
-      Map.findWaitTimes();
-    });
-    $modalInstance.close();
-  };
+
+      Map.getweb($scope.restaurant[0]['google_id'],function(place, status){
+        info['data']['website']=place['website']
+          $http({
+            method: 'POST',
+            url: '/wait',
+            data: info
+          }).success(function(){
+            Map.findWaitTimes();
+          });
+          $modalInstance.close();
+        
+      })
+    }
 }]);

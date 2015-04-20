@@ -2,31 +2,12 @@
 
 var mysql = require('mysql');
 
-// var connection = mysql.createConnection({
-//   host     : process.env.DB_URL || 'localhost',
-//   user     : process.env.DB_USER || 'root',
-//   password : process.env.DB_PWD || '',
-//   database : process.env.DB || ''
-// });
-
 var pool = mysql.createPool({
   host     : process.env.DB_URL || 'localhost',
   user     : process.env.DB_USER || 'root',
   password : process.env.DB_PWD || '',
   database : process.env.DB || ''
-})
-
-// connection.connect(function(err) {
-//   if (err) {
-//     console.error('error connecting: ' + err.stack);
-//     return;
-//   }
-//   //console.log('connected as id ' + connection.threadId);
-// });
-
-// connection.on('error',function(err){
-//   console.error('ERROR : connection ',err.code);  
-// });
+});
 
 exports.init = function(){
   var createDB = 'CREATE DATABASE IF NOT EXISTS nomnow;';

@@ -71,47 +71,29 @@ angular.module('nomNow.services', [])
     return Math.round((now-then)/60000);
   }
   //takes in a google places restaurant, generates marker at that location
-  var getRestaurantLocation = function(restaurant, cb) {
-    var request = {placeId : restaurant.google_id};
-    var service = new google.maps.places.PlacesService(map);
-    var wait = restaurant.avg_wait-(restaurant.avg_wait%5);
+  var getRestaurantLocation = function(restaurant) {
+    var wait = restaurant.avg_wait;
     var waitUrl = getWaitTimeMarkerUrl(wait);
     var shape = {
       coords : [1,1,21,1,10,34],
       type: 'poly'
     }
-
-      var delayreq = function (place, status) {
-      if (status === "OVER_QUERY_LIMIT") {
-        setTimeout(function () {
-          service.getDetails(request, delayreq);
-        },2000)
+    var coords = new google.maps.LatLng(restaurant.latitude, restaurant.longitude);
+    var name = restaurant.name;
+      var image = {
+        url : waitUrl,
+        size: new google.maps.Size(21,34),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(10,34)
       }
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
-        var name = place.name;
-        if(cb){
-          cb(coords,place.name);
-        }else{
-          var image = {
-            url : waitUrl,
-            size: new google.maps.Size(21,34),
-            origin: new google.maps.Point(0,0),
-            anchor: new google.maps.Point(10,34)
-          }
-
-          var marker = new google.maps.Marker({
-              position: coords,
-              map: map,
-              icon: image,
-              shape: shape
-          });
-          var elapsed = getElapsedTime(restaurant.most_recent);
-          displayInfo (marker, place, wait, elapsed);
-        }
-      }
-    }
-        service.getDetails(request, delayreq);
+      var marker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          icon: image,
+          shape: shape
+      });
+      var elapsed = getElapsedTime(restaurant.most_recent);
+      displayInfo (marker, restaurant, wait, elapsed);
   }
 ////////////  Modal needed function to pass on restaurant data
 

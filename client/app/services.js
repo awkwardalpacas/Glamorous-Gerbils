@@ -82,6 +82,7 @@ angular.module('nomNow.services', [])
     }
     console.log('restaurants',restaurant)
     service.getDetails(request, function (place, status) {
+      console.log('status', status);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('place:',place)
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);

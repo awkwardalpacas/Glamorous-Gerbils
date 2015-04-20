@@ -87,7 +87,7 @@ angular.module('nomNow.services', [])
       if (status === "OVER_QUERY_LIMIT") {
         setTimeout(function () {
           service.getDetails(request, delayreq);
-        },)
+        },2000)
       }
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('place:',place)

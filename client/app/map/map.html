@@ -18,7 +18,7 @@
            <div class="modal-body" >
               <div class = 'custombody'>
               <p>{{items}}</p>
-                <div ng-repeat ="place in restaurant" id="listofplaces">
+                <div ng-repeat ="place in restaurant" class="listofplaces">
                   <a type="button" class = "restaurants btn btn-primary btn-lg btn-block" ng-click='yes(place)'  ng-style="Rlist">{{place.name}}</a>
                     </div>
                <span class= "waittext">{{waittime.inputs}} minutes</span>

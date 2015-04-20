@@ -10,7 +10,9 @@ var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('NomNow server is listening at http://%s:%s', host, port);
+  db.init();
 });
+
 
 // This asks the database for the info the client needs.
 // The client will use that info to make a marker on the map.

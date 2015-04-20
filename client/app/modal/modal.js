@@ -17,13 +17,12 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
 }])
 
 .controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',"$http",function ($scope, $modalInstance, Map, $http){
-  //this makes the options invisible till they are needed.
-  // loading exists till it finds the closest result
   $scope.Rlist = {'visibility' :"visible"};
+  // loading exists till it finds the closest result
   $scope.items="Loading...";
   $scope.waittime={};
   $scope.restaurant={};
-//get close lets us change the text at the start.
+//get close lets us change the text at the start. and add the array to the restaurant
   var getclose = function(){
     Map.getClosestRestaurant(function(value){
       $scope.restaurant=value;
@@ -35,43 +34,18 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
   getclose();
   // this lets 30 be defalut text till input changes
   $scope.waittime.inputs ='30';
-  // below are the button functions for the modal
-
+  // removes the list of choices after selection.
   $scope.yes=function(choice){
     $scope.items= "Enter the wait time for "+choice['name']+".";
     $scope.restaurant = [choice];
     $scope.Rlist ={'visibility':'collapse',"height":"0px","width":"0px"};
-    // $scope.buttons = {'visibility' :"collapse", "height":"0px","width":"0px"};
-
   }
 
-  // $scope.no=function(){
-  //   $scope.buttons =  {'visibility' :"collapse", "height":"0px","width":"0px"};
-  //   $scope.manual = {'visibility' :"visible"};
-  //   $scope.items="Tell us where you are.";
-  // }
-
+//just closes the window
   $scope.cancel=function(){
     $modalInstance.close();
   }
 
-  // $scope.ok =function(){
-  //  var n = $scope.manualinput;
-  //   Map.getClosestRestaurant(function(value){
-  //     if(value['name']){
-  //     restaurant=value;
-  //     $scope.items = "Are you  at : "+value['name']+"?";
-  //     $scope.buttons = {'visibility' :"visible"};
-  //     $scope.$digest();
-  //     }
-  //     else{
-  //        $scope.items = "sorry no location found";
-  //         $scope.manual = {'visibility' :"visible"};
-  //         $scope.$digest();
-  //     }
-  //   },n);
-  //   $scope.manual = {'visibility' :"collapse"};
-  // }
   //on submit we have a success to get new wait times form the server
   $scope.submit= function(){
     var info= {data:{google_id:$scope.restaurant[0]['google_id'],

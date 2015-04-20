@@ -54,7 +54,6 @@ angular.module('nomNow.services', [])
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
-      console.log(resp.data[i]);
       }
       return resp.data;
     });
@@ -80,12 +79,13 @@ angular.module('nomNow.services', [])
     var shape = {
       coords : [1,1,21,1,10,34],
       type: 'poly'
-    }
+    }console.log('request',request)
     service.getDetails(request, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
         var name = place.name;
         if(cb){
+          console.log(place)
           cb(coords,place.name);
         }else{
           var image = {
@@ -132,7 +132,7 @@ angular.module('nomNow.services', [])
       if(byname){
         var request = {
             location: myloc,
-            radius: 10,
+            radius: 100,
             name:byname
           };
         }

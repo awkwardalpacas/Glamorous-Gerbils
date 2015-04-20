@@ -80,7 +80,7 @@ angular.module('nomNow.services', [])
       type: 'poly'
     }
     var coords = new google.maps.LatLng(restaurant.latitude, restaurant.longitude);
-    var name = place.name;
+    var name = restaurant.name;
       var image = {
         url : waitUrl,
         size: new google.maps.Size(21,34),
@@ -94,7 +94,7 @@ angular.module('nomNow.services', [])
           shape: shape
       });
       var elapsed = getElapsedTime(restaurant.most_recent);
-      displayInfo (marker, place, wait, elapsed);
+      displayInfo (marker, restaurant, wait, elapsed);
   }
 ////////////  Modal needed function to pass on restaurant data
 

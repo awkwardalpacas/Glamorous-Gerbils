@@ -73,7 +73,7 @@ angular.module('nomNow.services', [])
   //takes in a google places restaurant, generates marker at that location
   var getRestaurantLocation = function(restaurant) {
     console.log('in client', restaurant)
-    var wait = restaurant.avg_wait-(restaurant.avg_wait%5);
+    var wait = restaurant.avg_wait;
     var waitUrl = getWaitTimeMarkerUrl(wait);
     var shape = {
       coords : [1,1,21,1,10,34],

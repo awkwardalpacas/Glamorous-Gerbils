@@ -87,7 +87,7 @@ exports.getLatestAvgWaitAtLocation = function(locationID, cb){
 };
 
 exports.getAvgWaitsLatestReportAllLocs = function(cb){
-  var complicatedQuery = 'SELECT restaurants.google_id, restaurants.name, restaurants.longitude, restaurants.latitude ROUND(AVG(reports.wait_time)/5,0)*5 AS avg_wait, (SELECT reports.created_at FROM reports WHERE reports.google_id = restaurants.google_id ORDER BY reports.created_at DESC LIMIT 1) AS most_recent FROM restaurants INNER JOIN reports ON restaurants.google_id = reports.google_id GROUP BY restaurants.google_id;';
+  var complicatedQuery = 'SELECT restaurants.google_id, restaurants.name, restaurants.longitude, restaurants.latitude, ROUND(AVG(reports.wait_time)/5,0)*5 AS avg_wait, (SELECT reports.created_at FROM reports WHERE reports.google_id = restaurants.google_id ORDER BY reports.created_at DESC LIMIT 1) AS most_recent FROM restaurants INNER JOIN reports ON restaurants.google_id = reports.google_id GROUP BY restaurants.google_id;';
   pool.getConnection(function(err,connection){
     connection.on('error', function(err) {
       console.log(err.code); 

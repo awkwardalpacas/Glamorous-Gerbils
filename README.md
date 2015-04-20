@@ -11,6 +11,20 @@ NomNow is a web application for crowdsourcing wait times at restaurants. When at
 
 # 2. Stack
 
+## Database: mySQL
+Our schema has two tables: restaurants and reports. They look like this:
+
+### restaurants
+put a table here
+
+### reports
+put a table here
+
+## Server: Node with Express
+
+## Client: Angular
+
+
 # 3. Ideas for Extension
 
 

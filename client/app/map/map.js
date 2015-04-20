@@ -12,7 +12,7 @@ nomNow.controller('mapController', function ($scope, $location, $q, Map) {
 
   $scope.createMap()
     .then(function() {
-      $scope.findWaitTimes()
+      $scope.findWaitTimes();
     });
 
 });

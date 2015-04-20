@@ -81,8 +81,14 @@ angular.module('nomNow.services', [])
       type: 'poly'
     }
     console.log('restaurants',restaurant)
-    service.getDetails(request, function (place, status) {
-      console.log('status', status);
+
+      var delayreq = function (place, status) {
+        console.log('initialstatus', status)
+      if (status === "OVER_QUERY_LIMIT") {
+        setTimeout(function () {
+          service.getDetails(request, delayreq);
+        },)
+      }
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('place:',place)
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
@@ -107,7 +113,8 @@ angular.module('nomNow.services', [])
           displayInfo (marker, place, wait, elapsed);
         }
       }
-    });
+    }
+        service.getDetails(request, delayreq);
   }
 ////////////  Modal needed function to pass on restaurant data
 

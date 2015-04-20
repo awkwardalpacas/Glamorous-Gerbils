@@ -1,6 +1,11 @@
 # NomNow
 *Skip lines, not lunch*
 
+[View the deployed app](http://nomnow.herokuapp.com)
+
+Built by [Phil Dornfeld](https://github.com/phillydorn), [Pat Dalberg](https://github.com/pat-dalberg),[Vishal Atmakuri](https://github.com/vishalatmakuri), and [Ben Johnson](https://github.com/bjmfactory)
+
+
 # Table of contents
 1. Concept
 2. Stack

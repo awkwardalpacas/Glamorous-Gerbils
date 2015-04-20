@@ -80,17 +80,14 @@ angular.module('nomNow.services', [])
       coords : [1,1,21,1,10,34],
       type: 'poly'
     }
-    console.log('restaurants',restaurant)
 
       var delayreq = function (place, status) {
-        console.log('initialstatus', status)
       if (status === "OVER_QUERY_LIMIT") {
         setTimeout(function () {
           service.getDetails(request, delayreq);
         },2000)
       }
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log('place:',place)
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
         var name = place.name;
         if(cb){

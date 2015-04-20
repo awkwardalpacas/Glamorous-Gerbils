@@ -5,22 +5,20 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
       templateUrl: 'Report.html',
       controller: 'ModalInstanceCtrl',
       size: 'lr',
-      
+
   });
     //the angular docs required this step. the popup does not work without this
     modalInstance.result.then(function(selectedItem){
       $scope.selected= selectedItem;
       },function(){
         $log.info('Modal dismissed at: ' + new Date());
-    }) 
+    })
   }
 }])
 
 .controller('ModalInstanceCtrl',["$scope","$modalInstance",'Map',"$http",function ($scope, $modalInstance, Map, $http){
   //this makes the options invisible till they are needed.
-  // $scope.manual = {'visibility' :"collapse","height":"0px","width":"0px"};
-  // $scope.buttons = {'visibility' :"collapse"};
-  // loading exists till it finds the closest result 
+  // loading exists till it finds the closest result
   $scope.Rlist = {'visibility' :"visible"};
   $scope.items="Loading...";
   $scope.waittime={};
@@ -30,16 +28,15 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
     Map.getClosestRestaurant(function(value){
       $scope.restaurant=value;
       $scope.items = "Choose the restaurant you are located at.";
-      // $scope.buttons = {'visibility' :"visible"};
       $scope.$digest();
-    }) 
+    })
   };
 
   getclose();
   // this lets 30 be defalut text till input changes
   $scope.waittime.inputs ='30';
   // below are the button functions for the modal
- 
+
   $scope.yes=function(choice){
     $scope.items= "Enter the wait time for "+choice['name']+".";
     $scope.restaurant = [choice];
@@ -72,7 +69,7 @@ nomNow.controller("modalctrl", ["$scope","$modal","Map",function ($scope,$modal,
   //         $scope.manual = {'visibility' :"visible"};
   //         $scope.$digest();
   //     }
-  //   },n);      
+  //   },n);
   //   $scope.manual = {'visibility' :"collapse"};
   // }
   //on submit we have a success to get new wait times form the server

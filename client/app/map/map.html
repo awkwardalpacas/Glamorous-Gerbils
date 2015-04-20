@@ -19,7 +19,7 @@
               <div class = 'custombody'>
               <p>{{items}}</p>
                 <div ng-repeat ="place in restaurant" id="listofplaces">
-                  <button type="button" class = "restaurants btn btn-primary btn-lg btn-block" ng-click='yes(place)'  ng-style="Rlist">{{place.name}}</p>
+                  <button type="button" class = "restaurants btn btn-primary btn-lg btn-block" ng-click='yes(place)'  ng-style="Rlist">{{place.name}}</button>
                     </div>
                <span class= "waittext">{{waittime.inputs}} minutes</span>
                <p>Enter your wait time: <input  ng-model = "waittime.inputs"  type="range" min="0" max="60" value="30" step="5"></p>

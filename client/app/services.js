@@ -80,8 +80,17 @@ angular.module('nomNow.services', [])
       coords : [1,1,21,1,10,34],
       type: 'poly'
     }
-    service.getDetails(request, function (place, status) {
+    console.log('restaurants',restaurant)
+
+      var delayreq = function (place, status) {
+        console.log('initialstatus', status)
+      if (status === "OVER_QUERY_LIMIT") {
+        setTimeout(function () {
+          service.getDetails(request, delayreq);
+        },2000)
+      }
       if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log('place:',place)
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
         var name = place.name;
         if(cb){
@@ -93,6 +102,7 @@ angular.module('nomNow.services', [])
             origin: new google.maps.Point(0,0),
             anchor: new google.maps.Point(10,34)
           }
+
           var marker = new google.maps.Marker({
               position: coords,
               map: map,
@@ -103,7 +113,8 @@ angular.module('nomNow.services', [])
           displayInfo (marker, place, wait, elapsed);
         }
       }
-    });
+    }
+        service.getDetails(request, delayreq);
   }
 ////////////  Modal needed function to pass on restaurant data
 
@@ -111,10 +122,13 @@ angular.module('nomNow.services', [])
     // temp vars to find closest restaurant
     var mylat = null;
     var mylong = null;
-    var currentLowest = null;
-    var currentRestaurant = null;
-    var currentid=null
-	  var loc = null;
+    var choices =[{dis:null, name:null, google_id:null, loc:null},
+                    {dis:null, name:null, google_id:null, loc:null},
+                    {dis:null, name:null, google_id:null, loc:null}]
+   //  var currentLowest = null;
+   //  var currentRestaurant = null;
+   //  var currentid=null
+	  // var loc = null;
     // getting current location to compare
     getPosition().then(function(value){
       mylat = value.coords.latitude
@@ -128,7 +142,7 @@ angular.module('nomNow.services', [])
       if(byname){
         var request = {
             location: myloc,
-            radius: 10,
+            radius: 100,
             name:byname
           };
         }
@@ -137,25 +151,25 @@ angular.module('nomNow.services', [])
 
       service.nearbySearch(request, function(value){
         //looping the result to find closet restaurant
-
           for(var x =0 ; x<value.length; x++){
             var coords = value[x]['geometry']['location'];
             var place = value[x]['name']
             var key = value[x]['place_id']
-            getDistanceFromLatLonInKm(mylat, mylong, coords["k"], coords["D"],
+            var obj= {location:coords, 'name':place, 'google_id':key}
+            getDistanceFromLatLonInKm(mylat, mylong, coords["k"], coords["D"],obj,
             //after calculating distance in helper below this function compares the lowest distance.
-              function(dis){
-                if(currentLowest===null||currentLowest>dis){
-                  currentLowest = dis;
-                  currentRestaurant = place;
-                  currentid = key;
-                  loc =coords
+              function(dis, obj){
+                if(choices[0]['dis']===null||choices[0]['dis']>dis){
+                  choices[2]= choices[1];
+                  choices[1]= choices[0];
+                  choices[0]= obj
+                  choices[0]['dis']= dis;
                 }
             })
           }
           //set time out lets us wait till data is processed
           setTimeout(function(){
-            var closest = {name:currentRestaurant , google_id:currentid,location:loc}
+            var closest = choices
             cb(closest);
           }, 1000)
         });
@@ -167,7 +181,7 @@ angular.module('nomNow.services', [])
     return deg * (Math.PI/180)
   }
 
-  function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2, cb) {
+  function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2,obj, cb) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
   var dLon = deg2rad(lon2-lon1);
@@ -178,7 +192,7 @@ angular.module('nomNow.services', [])
     ;
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   var d = R * c; // Distance in km
-    cb(d);
+    cb(d, obj);
   }
 
 

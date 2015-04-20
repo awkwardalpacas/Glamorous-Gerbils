@@ -13,7 +13,7 @@ var pool = mysql.createPool({
   host     : process.env.DB_URL || 'localhost',
   user     : process.env.DB_USER || 'root',
   password : process.env.DB_PWD || '',
-  database : process.env.DB || ''
+  database : process.env.DB || 'nomnow'
 })
 
 // connection.connect(function(err) {
@@ -161,6 +161,7 @@ exports.isRestaurantInDB = function(locationID){
 };
 
 exports.addReport = function(locationID,waitTime,name,lon,lat){
+  console.log('loc:',locationID,'waittime:',waitTime,'name:',name,'lon',lon,'lat',lat)
   var reportQuery = 'INSERT INTO reports (google_id, wait_time) VALUES (?,?);';
   var params = [locationID,waitTime];
   if(exports.isRestaurantInDB(locationID)){

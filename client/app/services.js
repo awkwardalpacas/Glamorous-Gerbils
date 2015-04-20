@@ -80,7 +80,7 @@ angular.module('nomNow.services', [])
       coords : [1,1,21,1,10,34],
       type: 'poly'
     }
-    
+    console.log('restaurants',restaurant)
     service.getDetails(request, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('place:',place)

@@ -15,10 +15,14 @@ NomNow is a web application for crowdsourcing wait times at restaurants. When at
 Our schema has two tables: restaurants and reports. They look like this:
 
 ### restaurants
-put a table here
+| google_id (primary) | name | website | longitude | latitude |
+| :---: | :---: | :---: | :---: | :---: |
+| ChIJz7o2jgm1RIYRi_5Y7JfjH0A | Perry's Steakhouse & Grille | http://perryssteakhouse.com | -97.74351200000001 | 30.269557 |
 
 ### reports
-put a table here
+| id (primary) | google_id (foreign) | wait_time | created_at |
+| :---: | :---: | :---: | :---: |
+| 1 | ChIJz7o2jgm1RIYRi_5Y7JfjH0A | 15 | 2015-04-20 10:10:35 |
 
 ## Server: Node with Express
 

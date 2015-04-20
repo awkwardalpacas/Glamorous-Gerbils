@@ -195,10 +195,11 @@ angular.module('nomNow.services', [])
 
   //creates the info window that pops up when user clicks on a marker
   var displayInfo = function (marker, place, wait, elapsed) {
+    var site = place.website === undefined ? '' : place.website;
     var infowindow = new google.maps.InfoWindow({
       content: '<p>' + place.name+'<br />Wait time is ' + wait +
       ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
-      '<a href = "' + place.website + '">' + place.website+ '</a>'
+      '<a href = "' + place.website + '">' + site + '</a>'
     });
     google.maps.event.addListener(marker, 'click', function() {
       if(privwindow){privwindow.close()}

@@ -101,14 +101,7 @@ angular.module('nomNow.services', [])
     // temp vars to find closest restaurant
     var mylat = null;
     var mylong = null;
-    var choices =[{dis:null, name:null, google_id:null, loc:null},
-                    {dis:null, name:null, google_id:null, loc:null},
-                    {dis:null, name:null, google_id:null, loc:null}]
-   //  var currentLowest = null;
-   //  var currentRestaurant = null;
-   //  var currentid=null
-	  // var loc = null;
-    // getting current location to compare
+    var choices =[]
     getPosition().then(function(value){
       mylat = value.coords.latitude
       mylong = value.coords.longitude

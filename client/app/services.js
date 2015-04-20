@@ -80,9 +80,10 @@ angular.module('nomNow.services', [])
       coords : [1,1,21,1,10,34],
       type: 'poly'
     }
-    console.log('request:',request)
+    
     service.getDetails(request, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log('place:',place)
         var coords = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.D);
         var name = place.name;
         if(cb){
@@ -94,6 +95,7 @@ angular.module('nomNow.services', [])
             origin: new google.maps.Point(0,0),
             anchor: new google.maps.Point(10,34)
           }
+
           var marker = new google.maps.Marker({
               position: coords,
               map: map,

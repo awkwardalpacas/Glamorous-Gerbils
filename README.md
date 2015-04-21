@@ -13,7 +13,10 @@ Josh Benson [Josh's Github profile](https://github.com/joshuabenson)
 Stephanie Foskitt [Stephanie's Github profile](https://github.com/SFoskitt)
 
 NomNow 1.0 information:
+----------------------
+
 [View the deployed app](http://nomnow.herokuapp.com)
+
 Built by [Phil Dornfeld](https://github.com/phillydorn), [Pat Dalberg](https://github.com/pat-dalberg), [Vishal Atmakuri](https://github.com/vishalatmakuri), and [Ben Johnson](https://github.com/bjmfactory)
 
 

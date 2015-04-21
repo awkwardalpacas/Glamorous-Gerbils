@@ -30,7 +30,6 @@ Our schema has two tables: restaurants and reports. They look like this:
 | 1 | ChIJz7o2jgm1RIYRi_5Y7JfjH0A | 15 | 2015-04-20 10:10:35 |
 
 ## Server: Node with Express
-
 The server is comprised of two files.
 
 ### app.js
@@ -39,7 +38,15 @@ This is where the express server is created. It serves up static files at '/' an
 ### db.js
 This is where the functions that have the SQL queries live (we are not using an ORM). These functions are called from app.js.
 
-## Client: Angular
+## Client: Angular + Bootstrap
+
+Angular is taking care of the routes. When someone tries to report a wait, the client asks them for their location, and then it uses that to find restaurants where they may be.
+
+### Modal
+We used the `angular-bootstrap` library to create the modal.
+
+### Googele Maps API + Google Places
+We used the Google Maps API to generate the map and the markers, and we used the Google Places libary to get the info about the places.
 
 
 # 3. Ideas for Extension

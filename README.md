@@ -1,8 +1,10 @@
-# NomNow
+# NomNow 2.0
 *Skip lines, not lunch*
+Built with love by Karen Lewis, Josh Benson, Adam Guerra, Stephanie Foskitt
 
+
+NomNow 1.0 information:
 [View the deployed app](http://nomnow.herokuapp.com)
-
 Built by [Phil Dornfeld](https://github.com/phillydorn), [Pat Dalberg](https://github.com/pat-dalberg), [Vishal Atmakuri](https://github.com/vishalatmakuri), and [Ben Johnson](https://github.com/bjmfactory)
 
 

@@ -48,7 +48,20 @@ We used the `angular-bootstrap` library to create the modal.
 ### Googele Maps API + Google Places
 We used the Google Maps API to generate the map and the markers, and we used the Google Places libary to get the info about the places.
 
+# 3. Ideas for Improvement/Extension
 
-# 3. Ideas for Extension
+## Delete Old Data
+Write a cron job that prunes stale data. The data will be relevant only for an hour or two.
 
+## Reactive Updating
+Make the client auto-refresh when someone else submits data.
+
+## Integrate with other APIs
+Ideas: OpenTable, Yelp, FourSquare
+
+## Filter Data by Location
+Right now by default we serve up every report in the database when we create a map. Use the GPS of the client asking and dynamically serve up a map of only that city.
+
+## Integrate with Oculus Rift
+Not for the faint of heart.
 

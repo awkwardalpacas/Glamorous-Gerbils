@@ -38,6 +38,29 @@ angular.module('nomNow.services', [])
     });
     return deferred.promise;
   }
+  
+  /*When a user selects a place from the predictions attached to the autocomplete text field, 
+  the service fires a place_changed event. You can call getPlace() on the Autocomplete object,
+   to retrieve a PlaceResult object.*/
+
+  var autoSearchBox = function() {
+    var input = document.getElementById('searchTextField');
+    var options = {
+      // bounds: defaultBounds,
+      types: ['establishment']
+    };
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete.bindTo('bounds', map);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    // marker.setVisible(false);
+    var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        return;
+      }
+    });
+  }
 
   var findWaitTimes = function($scope) {
     if($scope){mapscope = $scope;}
@@ -201,6 +224,7 @@ angular.module('nomNow.services', [])
     getRestaurantLocation: getRestaurantLocation,
     getClosestRestaurant:getClosestRestaurant,
     displayInfo: displayInfo,
-    getweb:getweb
+    getweb:getweb,
+    autoSearchBox:autoSearchBox
   }
 })

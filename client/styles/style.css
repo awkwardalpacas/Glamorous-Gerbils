@@ -45,6 +45,11 @@ body {
   height: 100%;
 }
 
+#autosearch {
+  left:200px;
+  top: 20px;
+}
+
 p {
   margin: 20px;
 }

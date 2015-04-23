@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.12.2",
+    "tropo-webapi": "*",
     "bower": "^1.4.1",
     "express": "^4.12.3",
     "favicon": "0.0.2",

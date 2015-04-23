@@ -76,7 +76,7 @@ app.post('/testing', function(req, res) {
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
 
-  console.log('This is the request body: ',req.body)
+  console.log('This is the transcript: ',req.body.result.transcription)
 
   var transcript = req.body.result.transcription
   var time = ''
@@ -98,7 +98,7 @@ app.get('/demophonecall', function(req, res) {
   var url = tropoUrl+phoneNumber
   // console.log(phoneNumber, url)
   request(url, function(error, response, body) {
-    //console.log(response.statusCode, body)
+    console.log(response.statusCode, body)
   })
   res.redirect('/')
 })

@@ -76,8 +76,10 @@ app.get('/testing', function(req, res) {
   // res.end(TropoJSON(tropo))
   // stdout.log('req',req)
   // stderr.log('req',req)
+  console.log('req',req)
   process.stdout.write('req',req)
   process.stderr.write('req',req)
+  res.end('test')
 
 
 })

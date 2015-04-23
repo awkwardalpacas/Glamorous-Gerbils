@@ -90,8 +90,9 @@ app.post('/testing', function(req, res) {
 
   console.log('The wait is '+time+' minutes.')
   res.end('test')
+})
 
-  console.log('This is the transcript: ',req.body.result.transcription)
+app.get('/demophonecall', function() {
 
   var transcript = req.body.result.transcription
   var time = ''

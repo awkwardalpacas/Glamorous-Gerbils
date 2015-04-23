@@ -81,6 +81,11 @@ app.post('/testing', function(req, res) {
   var transcript = req.body.result.transcription
   var time = ''
   for (var i = 0; i < transcript.length; i++) {
+    // tropo reads single-digit minutes as 1:00, 5:00, etc. which messes up this loop.
+    // we could probably also do a string-replace of ':00' or something similar to fix this.
+    if(transcript[i] === ':') {
+      break;
+    }
     if(!!+transcript[i] || transcript[i] === '0') {
       time+=transcript[i]
     }

@@ -92,7 +92,7 @@ app.post('/testing', function(req, res) {
   res.end('test')
 })
 
-app.get('/demophonecall', function() {
+app.get('/demophonecall', function(req, res) {
 
   var transcript = req.body.result.transcription
   var time = ''

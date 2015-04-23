@@ -66,7 +66,8 @@ app.post('/newtime', function(req, res) {
 //         "wait": 15
 // }}
 
-var tropo_webapi = require('tropo-webapi');
+// var tropo_webapi = require('tropo-webapi');
+var request = require('request');
 
 app.post('/testing', function(req, res) {
   // var phoneNumber = '+19563939777'
@@ -89,6 +90,8 @@ app.post('/testing', function(req, res) {
 
   console.log('The wait is '+time+' minutes.')
   res.end('test')
+})
 
+app.get('/demophonecall', function() {
 
 })

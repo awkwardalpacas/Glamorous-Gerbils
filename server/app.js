@@ -81,7 +81,7 @@ app.post('/testing', function(req, res) {
   var transcript = req.body.result.transcription
   var time = ''
   for (var i = 0; i < transcript.length; i++) {
-    if(!!+transcript[i]) {
+    if(!!+transcript[i] || transcript[i] === '0') {
       time+=transcript[i]
     }
   }

@@ -94,8 +94,8 @@ app.post('/testing', function(req, res) {
 
 app.get('/demophonecall', function(req, res) {
   var tropoUrl = 'https://api.tropo.com/1.0/sessions?action=create&token=08d323148e34ce499bc74a0059bd29f54f10607d0f1837899118f7f1568e7ef017faf939f1af872c552e7bc5'
-  var phoneNumber = '/+1'+req.query.phone
-  var url = tropoUrl//+phoneNumber
+  var phoneNumber = '&phoneNumber=1'+req.query.phone
+  var url = tropoUrl+phoneNumber
   // console.log(phoneNumber, url)
   request(url, function(error, response, body) {
     console.log(response.statusCode, body)

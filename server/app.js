@@ -76,7 +76,7 @@ app.post('/testing', function(req, res) {
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
 
-  console.log('This is the transcript: ',req.body.result.transcription)
+  console.log('This is the request body: ',req.body)
 
   var transcript = req.body.result.transcription
   var time = ''

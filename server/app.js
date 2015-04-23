@@ -98,7 +98,7 @@ app.get('/demophonecall', function(req, res) {
   var url = tropoUrl+phoneNumber
   // console.log(phoneNumber, url)
   request(url, function(error, response, body) {
-    console.log(response.statusCode, body)
+    //console.log(response.statusCode, body)
   })
   res.redirect('/')
 })

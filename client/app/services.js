@@ -29,6 +29,7 @@ angular.module('nomNow.services', [])
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       that.createMarker(map, latLong, "You are here");
     });
+  return map;  
   }
   //Gets users current position
   var getPosition = function () {

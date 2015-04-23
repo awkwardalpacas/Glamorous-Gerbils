@@ -15,12 +15,23 @@ nomNow.directive('googleplace', function() {
             scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
  
             google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
-                scope.$apply(function() {
-                    scope.details = scope.gPlace.getPlace();
-                    model.$setViewValue(element.val());                
-                });
+                var place = scope.gPlace.getPlace();
+                debugger;
+                if (place.geometry) {
+                  scope.map.panTo(place.geometry.location);
+                  scope.map.setZoom(15);
+                  search();
+                } else {
+                  // document.getElementById('autocomplete').placeholder = 'Enter a city';
+                }
+
+              scope.$apply(function() {
+                scope.details = scope.gPlace.getPlace();
+                model.$setViewValue(element.val());                
+              });
             });
         }
+        
     };
 });
 

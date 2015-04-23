@@ -1,38 +1,31 @@
 var nomNow = angular.module('nomNow.map', ['ui.bootstrap'])
 
-nomNow.directive('googleplace', function() {
-    return {
-        require: 'ngModel',
-        scope: {
-            ngModel: '=',
-            details: '=?'
-        },
-        link: function(scope, element, attrs, model) {
-            var options = {
-                types: [],
-                componentRestrictions: {}
-            };
-            scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
- 
-            google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
-                var place = scope.gPlace.getPlace();
-                debugger;
-                if (place.geometry) {
-                  scope.map.panTo(place.geometry.location);
-                  scope.map.setZoom(15);
-                  search();
-                } else {
-                  // document.getElementById('autocomplete').placeholder = 'Enter a city';
-                }
-
-              scope.$apply(function() {
-                scope.details = scope.gPlace.getPlace();
-                model.$setViewValue(element.val());                
-              });
-            });
-        }
-        
+nomNow.directive('googleplace', function(Map) {
+  return {
+    require: 'ngModel',
+    scope: {
+      ngModel: '=',
+      details: '=?',
+      location: '=?'
+  },
+  link: function(scope, element, attrs, model) {
+    var options = {
+      types: [],
+      componentRestrictions: {}
     };
+    scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
+
+    google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+      var place = scope.gPlace.getPlace();
+      Map.centerMap(place);
+      scope.$apply(function() {
+        scope.details = scope.gPlace.getPlace();
+        scope.location = scope.details.geometry.location;
+        model.$setViewValue(element.val());
+      });
+    });
+  }  
+  };
 });
 
 nomNow.controller('mapController', function ($scope, $location, $q, Map) {
@@ -45,10 +38,10 @@ nomNow.controller('mapController', function ($scope, $location, $q, Map) {
   }
 
   $scope.createMap()
-    .then(function() {
+    .then(function(map) {
       $scope.findWaitTimes()
       $scope.gPlace;
-
+      $scope.map = map
     });
 
 });

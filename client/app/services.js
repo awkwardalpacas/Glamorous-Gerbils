@@ -28,8 +28,20 @@ angular.module('nomNow.services', [])
       mapOptions.center = latLong;
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       that.createMarker(map, latLong, "You are here");
+      return map;
     });
-  return map;  
+  }
+
+  //reposition map
+  var centerMap = function(place){
+    // var place = scope.gPlace.getPlace();
+      if (place.geometry) {
+        map.panTo(place.geometry.location);
+        map.setZoom(15);
+        // search();
+      } else {
+        // document.getElementById('autocomplete').placeholder = 'Not Found, Try Again';
+      }
   }
   //Gets users current position
   var getPosition = function () {
@@ -39,10 +51,6 @@ angular.module('nomNow.services', [])
     });
     return deferred.promise;
   }
-
-  /*When a user selects a place from the predictions attached to the autocomplete text field, 
-  the service fires a place_changed event. You can call getPlace() on the Autocomplete object,
-   to retrieve a PlaceResult object.*/
 
   var findWaitTimes = function($scope) {
     if($scope){mapscope = $scope;}
@@ -211,7 +219,9 @@ angular.module('nomNow.services', [])
     getRestaurantLocation: getRestaurantLocation,
     getClosestRestaurant:getClosestRestaurant,
     displayInfo: displayInfo,
-    getweb:getweb
+    getweb:getweb,
+    centerMap: centerMap,
+    map: map
 
   }
 })

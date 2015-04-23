@@ -40,10 +40,10 @@ for ( var j = 0; j < 20; j++ ) {
         var timestamp = faker.date.between(date + ' ' + startTime, date + ' ' + endTime);
         var formattedStamp = timestamp.toISOString().replace('T', ' ').slice(0, 19);
         
-        var waitRange = trend[hour];
+        var waitRange = trend[hour - 1];
         var waitTime = Math.floor(Math.random()*(waitRange[1]-waitRange[0] + 1) + waitRange[0]);
 
-        var reportQuery = "INSERT INTO reports ('" + resInfo[2] + "', '" + waitTime + formattedStamp "') VALUES ('" + "')";
+        var reportQuery = "INSERT INTO reports ('" + resInfo[2] + "', '" + waitTime + "', '" + formattedStamp + "') VALUES ('" + "')";
         reportQueries.push(reportQuery);
       }
       startTime = (Number(startTime.slice(0, 2)) + 1) + startTime.slice(2);
@@ -53,6 +53,7 @@ for ( var j = 0; j < 20; j++ ) {
   }
 }
 
+console.log(reportQueries, restaurantQueries);
 
 // sanitize all restaurant names with:
 // $location = mysql_real_escape_string($location);

@@ -75,7 +75,7 @@ app.post('/testing', function(req, res) {
   // tropo.call(phoneNumber)
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
-
+  console.log('Request query: ',req.query)
   console.log('This is the request: ',req)
 
   var transcript = req.body.result.transcription

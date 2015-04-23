@@ -77,9 +77,9 @@ app.post('/testing', function(req, res) {
   // res.end(TropoJSON(tropo))
   // stdout.log('req',req)
   // stderr.log('req',req)
-  console.log('req',req)
-  process.stdout.write('req',req)
-  process.stderr.write('req',req)
+  console.log('req',req.body.result.transcription)
+  // process.stdout.write('req',req)
+  // process.stderr.write('req',req)
   res.end('test')
 
   console.log('This is the transcript: ',req.body.result.transcription)

@@ -209,6 +209,8 @@ exports.addCalledReport = function(phoneNumber,time) {
         if(!err){
           //do something with results
           console.log(results)
+          var ID = results[0].google_id;
+          exports.addReport(ID,time);
         }
       });
       connection.release();

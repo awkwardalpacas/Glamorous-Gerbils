@@ -65,3 +65,16 @@ app.post('/newtime', function(req, res) {
 //         "latitude": 30.269059,
 //         "wait": 15
 // }}
+
+var tropo_webapi = require('tropo-webapi');
+
+app.get('/testing', function(req, res) {
+  // var phoneNumber = '+19563939777'
+  // var tropo = new TropoWebAPI()
+  // tropo.call(phoneNumber)
+  // tropo.say('This is only a test.')
+  // res.end(TropoJSON(tropo))
+  console.log(req)
+
+
+})

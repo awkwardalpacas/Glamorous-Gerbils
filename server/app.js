@@ -74,7 +74,7 @@ app.get('/testing', function(req, res) {
   // tropo.call(phoneNumber)
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
-  stdout.log(req)
+  stdout.log('req',req)
 
 
 })

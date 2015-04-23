@@ -68,7 +68,7 @@ app.post('/newtime', function(req, res) {
 
 var tropo_webapi = require('tropo-webapi');
 
-app.get('/testing', function(req, res) {
+app.post('/testing', function(req, res) {
   // var phoneNumber = '+19563939777'
   // var tropo = new TropoWebAPI()
   // tropo.call(phoneNumber)

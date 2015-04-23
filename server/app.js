@@ -42,3 +42,63 @@ app.post('/wait', function (req, res) {
     res.sendStatus(200);
   }
 });
+
+// app.post('/newtime', function(req, res) {
+//   var phoneNumber = req.body.phoneNumber;
+//   var wait = req.body.wait; //do some parsing to remove text, etc.
+
+//   //select google_id from restaurants where restaurants.phoneNumber = phoneNumber
+
+//   //insert wait into reports where google_id = 
+//   //insert sql query into our database
+//   db.addReport(foundGoogleID, wait);
+
+// })
+
+// To post data, use this format in the post request:
+
+// {"data":   {
+//         "google_id": "ChIJ1XlZ4Qm1RIYR4rpevy6Ybs4",
+//         "name": "Roaring Fork",
+//         "website": "http://roaringfork.com",
+//         "longitude": -97.74213199999997,
+//         "latitude": 30.269059,
+//         "wait": 15
+// }}
+
+// var tropo_webapi = require('tropo-webapi');
+var request = require('request');
+
+app.post('/testing', function(req, res) {
+  // var phoneNumber = '+19563939777'
+  // var tropo = new TropoWebAPI()
+  // tropo.call(phoneNumber)
+  // tropo.say('This is only a test.')
+  // res.end(TropoJSON(tropo))
+
+  console.log('This is the transcript: ',req.body.result.transcription)
+
+  var transcript = req.body.result.transcription
+  var time = ''
+  for (var i = 0; i < transcript.length; i++) {
+    if(!!+transcript[i] || transcript[i] === '0') {
+      time+=transcript[i]
+    }
+  }
+
+  time = +time
+
+  console.log('The wait is '+time+' minutes.')
+  res.end('test')
+})
+
+app.get('/demophonecall', function(req, res) {
+  var tropoUrl = 'https://api.tropo.com/1.0/sessions?action=create&token=08d323148e34ce499bc74a0059bd29f54f10607d0f1837899118f7f1568e7ef017faf939f1af872c552e7bc5'
+  var phoneNumber = '&phoneNumber=1'+req.query.phone
+  var url = tropoUrl+phoneNumber
+  // console.log(phoneNumber, url)
+  request(url, function(error, response, body) {
+    //console.log(response.statusCode, body)
+  })
+  res.redirect('/')
+})

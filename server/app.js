@@ -74,11 +74,20 @@ app.post('/testing', function(req, res) {
   // tropo.call(phoneNumber)
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
-  // stdout.log('req',req)
-  // stderr.log('req',req)
-  console.log('req',req.body.result.transcription)
-  // process.stdout.write('req',req)
-  // process.stderr.write('req',req)
+
+  console.log('This is the transcript: ',req.body.result.transcription)
+
+  var transcript = req.body.result.transcription
+  var time = ''
+  for (var i = 0; i < transcript.length; i++) {
+    if(!!+transcript[i]) {
+      time+=transcript[i]
+    }
+  }
+
+  time = +time
+
+  console.log('The wait is '+time+' minutes.')
   res.end('test')
 
 

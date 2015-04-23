@@ -100,4 +100,5 @@ app.get('/demophonecall', function(req, res) {
   // request(url, function(error, response, body) {
   //   console.log(response.statusCode, body)
   // })
+  res.redirect('/')
 })

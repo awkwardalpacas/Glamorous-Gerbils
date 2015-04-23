@@ -93,22 +93,6 @@ app.post('/testing', function(req, res) {
 })
 
 app.get('/demophonecall', function(req, res) {
-
-  var transcript = req.body.result.transcription
-  var time = ''
-  for (var i = 0; i < transcript.length; i++) {
-    if(!!+transcript[i]) {
-      time+=transcript[i]
-    }
-  }
-
-  time = +time
-
-  console.log('The wait is '+time+' minutes.')
-  res.end('test')
-})
-
-app.get('/demophonecall', function(req, res) {
   var tropoUrl = 'https://api.tropo.com/1.0/sessions?action=create&token=08d323148e34ce499bc74a0059bd29f54f10607d0f1837899118f7f1568e7ef017faf939f1af872c552e7bc5'
   var phoneNumber = '&phoneNumber=1'+req.query.phone
   var url = tropoUrl+phoneNumber

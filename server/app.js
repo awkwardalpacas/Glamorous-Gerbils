@@ -43,17 +43,17 @@ app.post('/wait', function (req, res) {
   }
 });
 
-app.post('/newtime', function(req, res) {
-  var phoneNumber = req.body.phoneNumber;
-  var wait = req.body.wait; //do some parsing to remove text, etc.
+// app.post('/newtime', function(req, res) {
+//   var phoneNumber = req.body.phoneNumber;
+//   var wait = req.body.wait; //do some parsing to remove text, etc.
 
-  //select google_id from restaurants where restaurants.phoneNumber = phoneNumber
+//   //select google_id from restaurants where restaurants.phoneNumber = phoneNumber
 
-  //insert wait into reports where google_id = 
-  //insert sql query into our database
-  db.addReport(foundGoogleID, wait);
+//   //insert wait into reports where google_id = 
+//   //insert sql query into our database
+//   db.addReport(foundGoogleID, wait);
 
-})
+// })
 
 // To post data, use this format in the post request:
 

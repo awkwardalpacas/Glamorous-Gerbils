@@ -75,20 +75,26 @@ app.post('/testing', function(req, res) {
   // tropo.call(phoneNumber)
   // tropo.say('This is only a test.')
   // res.end(TropoJSON(tropo))
-
-  console.log('This is the transcript: ',req.body.result.transcription)
+  // console.log('This is the phone number we called: ',req.query)
+  // console.log('This is the request: ',req)
 
   var transcript = req.body.result.transcription
   var time = ''
   for (var i = 0; i < transcript.length; i++) {
+    // tropo reads single-digit minutes as 1:00, 5:00, etc. which messes up this loop.
+    // we could probably also do a string-replace of ':00' or something similar to fix this.
+    if(transcript[i] === ':') {
+      break;
+    }
     if(!!+transcript[i] || transcript[i] === '0') {
       time+=transcript[i]
     }
   }
 
   time = +time
-
-  console.log('The wait is '+time+' minutes.')
+  // right now, req.query.phoneNumber has a 1 at the beginning, i.e. '10123456789', for the country code that tropo requires.
+  // make sure to match the phone number to the format of the numbers stored in our database.
+  console.log('The wait is '+time+' minutes.  We called the phone number '+req.query.phoneNumber+'.')
   res.end('test')
 })
 
@@ -98,7 +104,7 @@ app.get('/demophonecall', function(req, res) {
   var url = tropoUrl+phoneNumber
   // console.log(phoneNumber, url)
   request(url, function(error, response, body) {
-    //console.log(response.statusCode, body)
+    console.log(response.statusCode, body)
   })
   res.redirect('/')
 })

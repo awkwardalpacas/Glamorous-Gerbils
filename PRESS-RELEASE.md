@@ -16,28 +16,28 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## NomNow ##
+## NomNow2.0 ##
 <!--  > Name the product in a way the reader (i.e. your target customers) will understand. -->
 
 ## Discover wait times at restaurants before you go ##
 <!--  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title. -->
 
-## NomNow gives you a map of nearby eateries with a quick indication of wait-times, to help you decide where to go. When you have a limited time to eat, use NomNow to discover and avoid the line when you can't wait. ##
+## NomNow2.0 gives you a map of nearby eateries with a quick indication of wait-times, to help you decide where to go. When you have a limited time to eat, use NomNow2.0 to discover and avoid the line when you can't wait. ##
 <!--  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good. -->
 
-## The scenario : You have a busy day, full of meetings and work. You have an hour for lunch. You take 15 minutes to get to your favorite sandwich shop, only to find a line out the door! That's a quarter of your lunch hour gone, and now you have to pick someplace else. With NomNow you would have known about the line beforehand, and picked someplace with a shorter wait. ##
+## The scenario : You have a busy day, full of meetings and work. You have an hour for lunch. You take 15 minutes to get to your favorite sandwich shop, only to find a line out the door! That's a quarter of your lunch hour gone, and now you have to pick someplace else. With NomNow2.0 you would have known about the line beforehand, and picked someplace with a shorter wait. ##
 <!--  > Describe the problem your product solves. -->
 
-## NomNow gives a simple map view to show eateries nearby with a quick indicator of wait times, and an easy way to report those wait times.  ##
+## NomNow2.0 gives a simple map view to show eateries nearby with a quick indicator of wait times, and an easy way to report those wait times.  ##
 <!--  > Describe how your product elegantly solves the problem. -->
 
-## Your time is valuable, use NomNow to select the shortest lines when you are in a hurry ##
+## Your time is valuable, use NomNow2.0 to select the shortest lines when you are in a hurry ##
 <!--  > A quote from a spokesperson in your company. -->
 
 ## Just go to (URL TBD) with your computer or device and click or touch a location on the map to see reported wait times. ##
 <!--  > Describe how easy it is to get started. -->
 
-## Jay Random, a busy dude : 'NomNow saved me from waiting most of my lunch hour for a burrito at the Burrito Hut. I saw the wait was too long that day at a glance and had a sandwich from Sandwich Planet instead, where there was a much shorter line. It was awesome!' ##
+## Jay Random, a busy dude : 'NomNow2.0 saved me from waiting most of my lunch hour for a burrito at the Burrito Hut. I saw the wait was too long that day at a glance and had a sandwich from Sandwich Planet instead, where there was a much shorter line. It was awesome!' ##
 <!--  > Provide a quote from a hypothetical customer that describes how they experienced the benefit. -->
 
 ## Skip the lines, not the lunch ##

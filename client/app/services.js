@@ -1,5 +1,4 @@
-angular.module('nomNow.services', ['nomNow'])
-
+angular.module('nomNow.services', [])
 
 .factory('Map', function ($http, $q) {
   var latLong;
@@ -226,48 +225,6 @@ angular.module('nomNow.services', ['nomNow'])
       if(privwindow){ privwindow.close() }
       privwindow = infowindow;
       infowindow.open(marker.get('map'), marker);
-    });
-  }
-
-  var displayGraph = function (id, placename) {
-    // side note:  forgot to include phone numbers in restaurant.txt fake data
-
-    // look place up in db to get avg wait times --> to do this, i need the right SQL query!
-    // SELECT AVG(wait_time) FROM reports WHERE ;
-    // can't just use fetchWaitTimes unless I want to parse by hour myself
-
-    // append graph below / to id="graph-link" in the infowindow
-    var graph = document.getElementById('graph-link');
-    var angularGraphElt = angular.element(graph);
-    angularGraphElt.highcharts({
-      title: {
-        text: 'Average Wait for the Past 5 Days',
-        x: -20
-      },
-      subtitle: {
-        text: 'for ' + placename,
-        x: -20
-      },
-      xAxis: {
-        categories: ['8AM', '9AM', '10AM', '11AM', '12AM', '1PM', '2PM', '3PM', '4PM', '5PMM', '6PM', '7PM']
-      },
-      yAxis: {
-        title: {
-          text: 'Wait (min)'
-        }
-      },
-      series: [{
-        name: 'Karen', data: 10
-      },
-      {
-        name: 'Josh', data: 20
-      },
-      {
-        name: 'Stephanie', data: 15
-      },
-      {
-        name: 'Adam', data: 30
-      }]
     });
   }
 

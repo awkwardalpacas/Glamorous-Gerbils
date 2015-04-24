@@ -218,8 +218,7 @@ angular.module('nomNow.services', [])
     } else {
         var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />No wait time information is currently available.</p>' +
-        '<a href = "' + place.website + '">' + site + '</a>' +
-        '<a class="graph-link" ng-click="displayGraph(' + place.name + ')" href="#">5-Day Wait Time Average</a>'
+        '<a href = "' + place.website + '">' + site + '</a>'
       });
     }
 
@@ -265,8 +264,6 @@ angular.module('nomNow.services', [])
           hours[currentHour] = [restaurantInfo[i].wait_time];
         }
       }
-
-      console.log("hours: ", hours);
 
       var data = [];
 

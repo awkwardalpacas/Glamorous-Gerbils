@@ -42,9 +42,6 @@ app.post('/wait', function (req, res) {
   }
 });
 
-app.get('/exists', function (req, res) {
-  db.isRestaurantInDB(google_id)
-})
 // app.post('/newtime', function(req, res) {
 //   var phoneNumber = req.body.phoneNumber;
 //   var wait = req.body.wait; //do some parsing to remove text, etc.

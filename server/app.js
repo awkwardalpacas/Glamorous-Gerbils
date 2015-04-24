@@ -35,7 +35,6 @@ app.post('/wait', function (req, res) {
     ) {
     res.sendStatus(400);
   }
-
   else {
     db.addReport(data.google_id, data.wait, data.name, data.website, data.longitude, data.latitude);
     db.addRestaurant(data.name, data.website, data.google_id, data.longitude, data.latitude);
@@ -43,6 +42,9 @@ app.post('/wait', function (req, res) {
   }
 });
 
+app.get('/exists', function (req, res) {
+  db.isRestaurantInDB(google_id)
+})
 // app.post('/newtime', function(req, res) {
 //   var phoneNumber = req.body.phoneNumber;
 //   var wait = req.body.wait; //do some parsing to remove text, etc.

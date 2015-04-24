@@ -4,6 +4,7 @@ angular.module('nomNow.services', [])
 .factory('Map', function ($http, $q) {
   var latLong;
   var restaurants;
+  var typeFilter = ['restaurant','meal_takeaway','cafe','bar'];
   var map;
   var mapOptions = {
     zoom: 15,
@@ -42,17 +43,36 @@ angular.module('nomNow.services', [])
       } else {
         // document.getElementById('autocomplete').placeholder = 'Not Found, Try Again';
       }
-      //checks place to see if it is restaurant...
-      //if it is, adds it to the database, and displays a blank marker over place
+      //check to see if thing is in database already...
 
+      for (var i = 0; i < typeFilter.length; i++) {
+        if (place.types.indexOf(typeFilter[i])) {
+          //need to avoid adding to db if already there, maybe this is already handled..
 
+      var info= {data:{google_id:place['place_id'],
+      name:place['name'],
+      longitude: place.geometry.location["D"],
+      latitude: place.geometry.location["k"],
+      'wait':-1}};
+      getweb(place['place_id'],function(place, status){
+        info['data']['website']=place['website']
+          $http({
+            method: 'POST',
+            url: '/wait',
+            data: info
+          }).success(function(){
+            fetchWaitTimes();
+          });
+      })
+      return;
+        }
+      }
   }
   //Gets users current position
   var getPosition = function () {
     var deferred = $q.defer();
     navigator.geolocation.getCurrentPosition(function(position){
-      deferred.resolve(position);
-      console.log("getPosition - position", position)
+      deferred.resolve(position)
     });
     return deferred.promise;
   }
@@ -72,16 +92,19 @@ angular.module('nomNow.services', [])
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
-        console.log("fetch wait times resp.data[i]", resp.data[i])
       }
       return resp.data;
     });
   }
   //generates a marker with correct number and color for each waittime
   var getWaitTimeMarkerUrl = function (wait) {
-    var hexColor = wait <= 20 ? '3FA71C' : wait <=40 ? 'E4fE09' : 'E21E1F';
-    wait = wait < 60 ? wait : '60+';
-    return 'http://www.googlemapsmarkers.com/v1/' + wait + '/' + hexColor + '/';
+    if (wait>0) {
+      var hexColor = wait <= 20 ? '3FA71C' : wait <=40 ? 'E4fE09' : 'E21E1F';
+      wait = wait < 60 ? wait : '60+';
+      return 'http://www.googlemapsmarkers.com/v1/' + wait + '/' + hexColor + '/';
+    } else {
+      return 'http://www.googlemapsmarkers.com/v1/' + 'F5F5DC' + '/';
+    }
   }
   //calculates time between right now and the most recent wait time post
   var getElapsedTime = function(timestamp) {
@@ -91,29 +114,32 @@ angular.module('nomNow.services', [])
   }
   //takes in a google places restaurant, generates marker at that location
   var getRestaurantLocation = function(restaurant) {
-    console.log("restaurant argument in getRestaurantLocation", restaurant)
-    var wait = restaurant.avg_wait;
-    var waitUrl = getWaitTimeMarkerUrl(wait);
-    var shape = {
-      coords : [1,1,21,1,10,34],
-      type: 'poly'
-    }
-    var coords = new google.maps.LatLng(restaurant.latitude, restaurant.longitude);
-    var name = restaurant.name;
-      var image = {
-        url : waitUrl,
-        size: new google.maps.Size(21,34),
-        origin: new google.maps.Point(0,0),
-        anchor: new google.maps.Point(10,34)
-      }
-      var marker = new google.maps.Marker({
-          position: coords,
-          map: map,
-          icon: image,
-          shape: shape
-      });
-      var elapsed = getElapsedTime(restaurant.most_recent);
-      displayInfo (marker, restaurant, wait, elapsed);
+    if ((restaurant.avg_wait < 0) && ((getElapsedTime(restaurant.most_recent)) > 30 )) {
+      return;
+    } 
+        var wait = restaurant.avg_wait;
+        var waitUrl = getWaitTimeMarkerUrl(wait);
+        var shape = {
+          coords : [1,1,21,1,10,34],
+          type: 'poly'
+        }
+        var coords = new google.maps.LatLng(restaurant.latitude, restaurant.longitude);
+        var name = restaurant.name;
+          var image = {
+            url : waitUrl,
+            size: new google.maps.Size(21,34),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(10,34)
+          }
+          var marker = new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: image,
+              shape: shape
+          });
+          var elapsed = getElapsedTime(restaurant.most_recent);
+          displayInfo (marker, restaurant, wait, elapsed);
+     
   }
 ////////////  Modal needed function to pass on restaurant data
 
@@ -127,7 +153,7 @@ angular.module('nomNow.services', [])
       var request = {
           location: myloc,
           rankBy: google.maps.places.RankBy.DISTANCE,
-          types: ['restaurant','meal_takeaway','cafe','bar']
+          types: typeFilter
         };
 
       // api request that gets closest places.
@@ -180,13 +206,20 @@ angular.module('nomNow.services', [])
   //creates the info window that pops up when user clicks on a marker
   var displayInfo = function (marker, place, wait, elapsed) {
     var site = place.website === undefined ? '' : place.website;
-    var infowindow = new google.maps.InfoWindow({
-      content: '<p>' + place.name+'<br />Wait time is ' + wait +
-      ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
-      '<a href = "' + place.website + '">' + site + '</a>'
-    });
+    if (wait>0){
+      var infowindow = new google.maps.InfoWindow({
+        content: '<p>' + place.name+'<br />Wait time is ' + wait +
+        ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
+        '<a href = "' + place.website + '">' + site + '</a>'
+      });
+    } else {
+        var infowindow = new google.maps.InfoWindow({
+        content: '<p>' + place.name+'<br />No wait time information is currently available.</p>' +
+        '<a href = "' + place.website + '">' + site + '</a>'
+      });
+    }
     google.maps.event.addListener(marker, 'click', function() {
-      if(privwindow){privwindow.close()}
+      if(privwindow){ privwindow.close() }
       privwindow = infowindow;
       infowindow.open(marker.get('map'), marker);
     });

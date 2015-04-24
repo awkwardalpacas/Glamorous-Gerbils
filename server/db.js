@@ -144,22 +144,32 @@ exports.isRestaurantInDB = function(locationID){
 exports.addReport = function(locationID,waitTime,name,website,lon,lat){
   var reportQuery = 'INSERT INTO reports (google_id, wait_time) VALUES (?,?);';
   var params = [locationID,waitTime];
+  var negAvoid = false;
+  var newAvoid = false;
+
+  if (waitTime < 0){
+    negAvoid = true;  //flag to ignore report times of -1.
+  }
   if(exports.isRestaurantInDB(locationID)){
-    // NO OP
+    console.log('in database')
   }else{
     exports.addRestaurant(name,website,locationID,lon,lat);
+    newAvoid = true;
   }
-  pool.getConnection(function(err,connection){
-    connection.on('error', function(err) {
-      console.log(err.code); 
-    });    
-    if(!err){
-      connection.query(reportQuery,params,function(err,results){
+  if (((!negAvoid && newAvoid)) || ((newAvoid && negAvoid))) {
+    console.log(newAvoid, negAvoid)
+    pool.getConnection(function(err,connection){
+      connection.on('error', function(err) {
+        console.log(err.code); 
+      });    
+      if(!err){
+        connection.query(reportQuery,params,function(err,results){
 
-      });
-      connection.release();      
-    }
-  });
+        });
+        connection.release();      
+      }
+    });
+  }  
 };
 
 exports.addRestaurant = function(name,website,g_id,lon,lat){

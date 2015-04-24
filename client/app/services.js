@@ -238,16 +238,21 @@ angular.module('nomNow.services', [])
 
   getOneRestaurantWaitTime = function (id, placename, $scope) {
     return $http({
-      method: 'GET',
-      url: '/wait'
+      method: 'POST',
+      url: '/wait',
+      data: {
+        id: id,
+        oneFlag: true
+      }
     })
     .then (function (resp) {
       restaurantWaitTimes = resp.data;
+      console.log(restaurantWaitTimes);
       var data = [];
-      for (var i = 0; i < restaurantWaitTimes.length; i++) {
+      // for (var i = 0; i < restaurantWaitTimes.length; i++) {
         // parse times yo
-      }
-      displayGraph(id, placename, data);
+      // }
+      // displayGraph(id, placename, data);
     });
   }
 

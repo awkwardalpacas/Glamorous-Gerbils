@@ -229,7 +229,7 @@ exports.addCalledReport = function(phoneNumber,time) {
 };
 
 exports.getAllWaitsforOneRestaurant = function(g_id, cb){
-  var getAllWaitsQuery = 'SELECT * FROM reports WHERE google_id=?';
+  var getAllWaitsQuery = 'SELECT created_at, wait_time FROM reports WHERE google_id=?';
 
   pool.getConnection(function(err,connection){
     connection.on('error', function(err) {
@@ -237,12 +237,13 @@ exports.getAllWaitsforOneRestaurant = function(g_id, cb){
     });
 
     if(!err){
-      connection.query(getAllWaitsQuery, g_id,function(err,results){
+      connection.query(getAllWaitsQuery, g_id, function(err,results){
+        console.log('database is returning these results: ', results);
         if(!err){
           cb(results);
         }
       });
-      connection.release();      
+      connection.release();
     }
   });
 };

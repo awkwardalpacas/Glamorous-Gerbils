@@ -246,9 +246,8 @@ angular.module('nomNow.services', [])
       }
     })
     .then (function (resp) {
-      restaurantWaitTimes = resp.data;
-      console.log(restaurantWaitTimes);
-      var data = [];
+      console.log(resp);
+      // var data = [];
       // for (var i = 0; i < restaurantWaitTimes.length; i++) {
         // parse times yo
       // }

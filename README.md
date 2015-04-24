@@ -7,6 +7,7 @@ Version 2.0 offers the following updates, bug fixes, and features:
 - Restaurants provided in the "Report Wait Times" feature are the five closest to the center of the map
 - 12,000 test data reports over 20 restaurants generated for demonstration purposes
 - NomNow2.0 integrates with Tropo API.  This calls a restaurant, records a response, transcribes the response, parses the wait time integer, and stores the information as a new report in the database.
+- User can view a popup graph of historical wait times for any given hour for an individual restaurant. An algorithm parses when past wait times were reported and averages the reported times for each hour. Highcharts was used to generate the graph based on these results.
 
 
 Contributors

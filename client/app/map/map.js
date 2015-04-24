@@ -18,6 +18,7 @@ nomNow.directive('googleplace', function(Map) {
     google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
       var place = scope.gPlace.getPlace();
       scope.details = place;
+      console.log(scope.details);
       Map.centerMap(place);
       scope.$apply(function() {
         scope.location = scope.details.geometry.location;

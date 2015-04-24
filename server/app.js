@@ -35,7 +35,6 @@ app.post('/wait', function (req, res) {
     ) {
     res.sendStatus(400);
   }
-
   else {
     db.addReport(data.google_id, data.wait, data.name, data.website, data.longitude, data.latitude);
     db.addRestaurant(data.name, data.website, data.google_id, data.longitude, data.latitude);

@@ -206,6 +206,7 @@ angular.module('nomNow.services', [])
   //creates the info window that pops up when user clicks on a marker
   var displayInfo = function (marker, place, wait, elapsed) {
     var site = place.website === undefined ? '' : place.website;
+
     if (wait>0){
       var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />Wait time is ' + wait +
@@ -215,14 +216,20 @@ angular.module('nomNow.services', [])
     } else {
         var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />No wait time information is currently available.</p>' +
-        '<a href = "' + place.website + '">' + site + '</a>'
+        '<a href = "' + place.website + '">' + site + '</a>' +
+        '<a class="graph-link" ng-click="displayGraph(' + place.name + ')" href="#">5-Day Wait Time Average</a>'
       });
     }
+
     google.maps.event.addListener(marker, 'click', function() {
       if(privwindow){ privwindow.close() }
       privwindow = infowindow;
       infowindow.open(marker.get('map'), marker);
     });
+  }
+
+  var displayGraph = function (placename) {
+    // look place up in db to get avg wait times
   }
 
   var getweb = function(id,cb){
@@ -243,6 +250,6 @@ angular.module('nomNow.services', [])
     getweb:getweb,
     centerMap: centerMap,
     map: map
-
+    displayGraph: displayGraph
   }
 })

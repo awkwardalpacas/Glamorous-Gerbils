@@ -26,7 +26,15 @@ app.get('/wait', function (req, res) {
 // If the data looks good, it add a restaurant and report record.
 app.post('/wait', function (req, res) {
   var data = req.body.data;
-  if (
+
+  // if oneFlag is passed in as true, get wait times for one restaurant
+  if ( req.body.oneFlag ) {
+    db.getAllWaitsforOneRestaurant(req.body.id, function (results) {
+      res.send(results);
+    });
+  }
+
+  else if (
     data.google_id === undefined ||
     data.name      === undefined ||
     data.longitude === undefined ||

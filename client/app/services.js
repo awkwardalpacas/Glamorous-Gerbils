@@ -1,5 +1,6 @@
-angular.module('nomNow.services', [])
+var getOneRestaurantWaitTime, displayGraph;
 
+angular.module('nomNow.services', [])
 
 .factory('Map', function ($http, $q) {
   var latLong;
@@ -206,11 +207,13 @@ angular.module('nomNow.services', [])
   //creates the info window that pops up when user clicks on a marker
   var displayInfo = function (marker, place, wait, elapsed) {
     var site = place.website === undefined ? '' : place.website;
+
     if (wait>0){
       var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />Wait time is ' + wait +
         ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
-        '<a href = "' + place.website + '">' + site + '</a>'
+        '<a href = "' + place.website + '">' + site + '</a><br />' +
+        '<button id="graph-link" data-id="' + place.google_id + '", data-name="' + place.name + '" href="">5-Day Wait Time Average</button>'
       });
     } else {
         var infowindow = new google.maps.InfoWindow({
@@ -218,6 +221,7 @@ angular.module('nomNow.services', [])
         '<a href = "' + place.website + '">' + site + '</a>'
       });
     }
+
     google.maps.event.addListener(marker, 'click', function() {
       if(privwindow){ privwindow.close() }
       privwindow = infowindow;
@@ -229,6 +233,74 @@ angular.module('nomNow.services', [])
     var request = {placeId: id};
       var service = new google.maps.places.PlacesService(map);
       service.getDetails(request,cb);
+  }
+
+  getOneRestaurantWaitTime = function (id, placename, $scope) {
+    return $http({
+      method: 'POST',
+      url: '/wait',
+      data: {
+        id: id,
+        oneFlag: true
+      }
+    })
+    .then (function (resp) {
+      var restaurantInfo = resp.data.sort(function(a, b){
+        return Date.parse(a.created_at) - Date.parse(b.created_at);
+      });
+
+      // twelve hours are currently hardcoded for each restaurant
+      // future implementation: calculate based on opening/closing times
+      var startDate = new Date(restaurantInfo[0].created_at);
+
+      var hours = {};
+      for (var i = 0; i < restaurantInfo.length; i++) {
+        var currentDate = new Date(restaurantInfo[i].created_at);
+        var currentHour = currentDate.getHours();
+        
+        if ( hours[currentHour] ) {
+          hours[currentHour].push(restaurantInfo[i].wait_time);
+        } else {
+          hours[currentHour] = [restaurantInfo[i].wait_time];
+        }
+      }
+
+      var data = [];
+
+      for ( hour in hours ) {
+        var sum = hours[hour].reduce(function (a, b) {
+          return a + b;
+        });
+
+        data.push( sum / (hour.length) );
+      }
+
+      displayGraph(id, placename, data);
+    });
+  }
+
+  displayGraph = function (id, placename, data) {
+    // append graph to id="graph-link" in the infowindow using highcharts
+    $('#graph-link').highcharts({
+      title: {
+        text: 'Average Wait for ' + placename + ', Last 5 Days',
+        x: 20
+      },
+      xAxis: {
+        categories: ['8AM', '9AM', '10AM', '11AM', '12AM', '1PM', '2PM', '3PM', '4PM', '5PMM', '6PM', '7PM']
+      },
+      yAxis: {
+        title: {
+          text: 'Wait (min)'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        data: data
+      }]
+    });
   }
 
   return {
@@ -243,6 +315,19 @@ angular.module('nomNow.services', [])
     getweb:getweb,
     centerMap: centerMap,
     map: map
-
   }
-})
+});
+
+
+$('body').on('click', '#graph-link', function (event) {
+  var id = $(this).data('id');
+  var placename = $(this).data('name');
+
+  $(this).css({
+    height: '250px',
+    margin: '0 auto',
+    width: '500px'
+  });
+
+  getOneRestaurantWaitTime(id, placename);
+});

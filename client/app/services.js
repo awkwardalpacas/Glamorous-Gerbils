@@ -47,7 +47,8 @@ angular.module('nomNow.services', [])
   var getPosition = function () {
     var deferred = $q.defer();
     navigator.geolocation.getCurrentPosition(function(position){
-      deferred.resolve(position)
+      deferred.resolve(position);
+      console.log("getPosition - position", position)
     });
     return deferred.promise;
   }
@@ -67,6 +68,7 @@ angular.module('nomNow.services', [])
       restaurants = resp.data;
       for (var i = 0; i<resp.data.length; i++) {
         getRestaurantLocation(resp.data[i]);
+        console.log("fetch wait times resp.data[i]", resp.data[i])
       }
       return resp.data;
     });
@@ -85,6 +87,7 @@ angular.module('nomNow.services', [])
   }
   //takes in a google places restaurant, generates marker at that location
   var getRestaurantLocation = function(restaurant) {
+    console.log("restaurant argument in getRestaurantLocation", restaurant)
     var wait = restaurant.avg_wait;
     var waitUrl = getWaitTimeMarkerUrl(wait);
     var shape = {
@@ -119,12 +122,19 @@ angular.module('nomNow.services', [])
     //                 {dis:null, name:null, google_id:null, loc:null}]
     var choices = []
     getPosition().then(function(value){
-      mylat = value.coords.latitude
-      mylong = value.coords.longitude
-      var myloc = new google.maps.LatLng(mylat, mylong)
+      // var mapCenter = map.center;
+      // var locVar;
+      // mylat = value.coords.latitude
+      // mylong = value.coords.longitude
+      var myloc = map.center;
+      // if (myloc !=== mapCenter){
+      //   locVar = mapCenter
+      // } else {
+      //   locVar = myloc
+      // }
+      console.log('myloc', myloc)
       var request = {
           location: myloc,
-          // radius: 500,
           rankBy: google.maps.places.RankBy.DISTANCE,
           types: ['restaurant','meal_takeaway']
         };

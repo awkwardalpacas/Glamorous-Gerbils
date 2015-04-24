@@ -1,11 +1,14 @@
 {
-  "name": "NomNow",
+  "name": "NomNow2.0",
   "version": "0.0.0",
-  "homepage": "https://github.com/Glamorous-Gerbils/Glamorous-Gerbils",
+  "homepage": "https://github.com/awkwardalpacas/Glamorous-Gerbils",
   "authors": [
     "Phil Dornfeld <phillydorn75@gmail.com>"
+    "Karen Lewis <karmakettle@gmail.com",
+    "Josh Benson <bensonjosha@gmail.com",
+    "Adam Guerra <adam.l.guerra@gmail.com"
   ],
-  "description": "No more Lines",
+  "description": "No more Lines 2.0",
   "main": "app.js",
   "license": "MIT",
   "ignore": [

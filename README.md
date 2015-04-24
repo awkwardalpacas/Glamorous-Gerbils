@@ -1,6 +1,14 @@
 # NomNow 2.0
 *Skip lines, not lunch*
 
+Version 2.0 offers the following updates, bug fixes, and features:
+
+- Map can be re-centered based on Search Box = search for address or establishment name
+- Restaurants provided in the "Report Wait Times" feature are the five closest to the center of the map
+- 12,000 test data reports over 20 restaurants generated for demonstration purposes
+- NomNow2.0 integrates with Tropo API.  This calls a restaurant, records a response, transcribes the response, parses the wait time integer, and stores the information as a new report in the database.
+
+
 Contributors
 ------------
 
@@ -11,6 +19,7 @@ Karen Lewis [Karen's Github profile](https://github.com/karmakettle)
 Josh Benson [Josh's Github profile](https://github.com/joshuabenson)
 
 Stephanie Foskitt [Stephanie's Github profile](https://github.com/SFoskitt)
+
 
 NomNow 1.0 information:
 ----------------------
@@ -26,7 +35,7 @@ Built by [Phil Dornfeld](https://github.com/phillydorn), [Pat Dalberg](https://g
 3. Ideas for Extension
 
 # 1. Concept
-NomNow is a web application for crowdsourcing wait times at restaurants. When at a restaurant, anyone can submit a wait time, and all the reported wait times are pooled and used to create a map which shows the average reported wait time for each restaurant.
+NomNow2.0 is a web application for crowdsourcing wait times at restaurants. When at a restaurant, anyone can submit a wait time, and all the reported wait times are pooled and used to create a map which shows the average reported wait time for each restaurant.
 
 # 2. Stack
 

@@ -234,6 +234,44 @@ angular.module('nomNow.services', [])
       service.getDetails(request,cb);
   }
 
+  function displayGraph (id, placename, data) {
+    // append graph to id="graph-link" in the infowindow using highcharts
+    $('#graph-link').highcharts({
+      title: {
+        text: 'Average Wait for ' + placename + ', Last 5 Days',
+        x: 20
+      },
+      xAxis: {
+        categories: ['8AM', '9AM', '10AM', '11AM', '12AM', '1PM', '2PM', '3PM', '4PM', '5PMM', '6PM', '7PM']
+      },
+      yAxis: {
+        title: {
+          text: 'Wait (min)'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        data: data
+      }]
+    });
+  }
+
+  function getOneRestaurantWaitTime (id, placename, $scope) {
+    return $http({
+      method: 'GET',
+      url: '/wait'
+    })
+    .then (function (resp) {
+      restaurantWaitTimes = resp.data;
+      for (var i = 0; i<resp.data.length; i++) {
+        getRestaurantLocation(resp.data[i]);
+      }
+      displayGraph(id, placename, data);
+    });
+  }
+
   return {
     createMap: createMap,
     createMarker: createMarker,
@@ -250,30 +288,6 @@ angular.module('nomNow.services', [])
   }
 });
 
-function displayGraph (id, placename) {
-  // var data = fetchWaitTimes();
-  // append graph to id="graph-link" in the infowindow using highcharts
-  $('#graph-link').highcharts({
-    title: {
-      text: 'Average Wait for ' + placename + ', Last 5 Days',
-      x: 20
-    },
-    xAxis: {
-      categories: ['8AM', '9AM', '10AM', '11AM', '12AM', '1PM', '2PM', '3PM', '4PM', '5PMM', '6PM', '7PM']
-    },
-    yAxis: {
-      title: {
-        text: 'Wait (min)'
-      }
-    },
-    legend: {
-      enabled: false
-    },
-    series: [{
-      data: [10, 15, 20, 30, 20, 50, 60, 40, 30, 20, 10, 15]
-    }]
-  });
-}
 
 $('body').on('click', '#graph-link', function (event) {
   var id = $(this).data('id');
@@ -285,5 +299,5 @@ $('body').on('click', '#graph-link', function (event) {
     width: '500px'
   });
 
-  displayGraph(id, placename);
+  getOneRestaurantWaitTime(id, placename);
 });

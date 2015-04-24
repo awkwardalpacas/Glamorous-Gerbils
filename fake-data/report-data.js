@@ -27,14 +27,14 @@ for ( var j = 0; j < 20; j++ ) {
   var breakfastpeak = [[10, 20], [20, 35], [30, 40], [30, 40], [20, 30], [10, 20], [0, 10], [0, 10], [0, 10], [10, 15], [10, 15], [0, 10]];
   var dinnerpeak = [[0, 10], [0, 10], [10, 15], [0, 10], [10, 15], [10, 15], [0, 10], [10, 15], [15, 20], [20, 25], [20, 25], [20, 25]];
   var trends = [lunchpeak, breakfastpeak, dinnerpeak];
+  var date = '04-10-15';
 
   for ( var day = 5; day > 0; day-- ) {
-    var date = '04-10-15';
     var trend = trends[Math.floor(Math.random() * trends.length)];
+    var startTime = '08:00:00';
+    var endTime = '08:59:00';
 
     for ( var hour = 12; hour > 0; hour--) {
-      var startTime = '08:00:00';
-      var endTime = '08:59:00';
 
       for ( var report = 10; report > 0; report--) {
         var timestamp = faker.date.between(date + ' ' + startTime, date + ' ' + endTime);
@@ -43,17 +43,29 @@ for ( var j = 0; j < 20; j++ ) {
         var waitRange = trend[hour - 1];
         var waitTime = Math.floor(Math.random()*(waitRange[1]-waitRange[0] + 1) + waitRange[0]);
 
-        var reportQuery = "INSERT INTO reports ('" + resInfo[2] + "', '" + waitTime + "', '" + formattedStamp + "') VALUES ('" + "')";
+        var reportQuery = "INSERT INTO reports (google_id, wait_time, created_at) VALUES ('" + resInfo[2] + "', '" + waitTime + "', '" + formattedStamp + "');";
         reportQueries.push(reportQuery);
       }
-      startTime = (Number(startTime.slice(0, 2)) + 1) + startTime.slice(2);
-      endTime =  (Number(endTime.slice(0, 2)) + 1) + endTime.slice(2);
+      startTime = (Number(startTime.slice(0, 2)) + 1) + ':00:00';
+      if ( startTime.length !== 8 ) startTime = '0' + startTime;
+      endTime =  (Number(endTime.slice(0, 2)) + 1) + ':59:00';
+      if ( endTime.length !== 8 ) endTime = '0' + endTime;
     }
-    date = '04-' + (Number(date.slice(3, 2)) + 1) + '-15';
+    date = '04-' + (Number(date.slice(3, 5)) + 1) + '-15';
   }
 }
 
-console.log(reportQueries, restaurantQueries);
+/*
+fs.writeFile('restaurants.txt', restaurantQueries.join('\n'), function (err) {
+  if ( err ) throw err;
+  console.log('Successfully saved restaurantQueries to restaurants.txt!');
+});
+*/
+
+fs.writeFile('reports.txt', reportQueries.join('\n'), function (err) {
+  if ( err ) throw err;
+  console.log('Successfully saved reportQueries to reports.txt!');
+});
 
 // sanitize all restaurant names with:
 // $location = mysql_real_escape_string($location);

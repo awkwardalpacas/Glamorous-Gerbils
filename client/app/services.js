@@ -1,3 +1,5 @@
+var getOneRestaurantWaitTime, displayGraph;
+
 angular.module('nomNow.services', [])
 
 .factory('Map', function ($http, $q) {
@@ -234,7 +236,22 @@ angular.module('nomNow.services', [])
       service.getDetails(request,cb);
   }
 
-  function displayGraph (id, placename, data) {
+  getOneRestaurantWaitTime = function (id, placename, $scope) {
+    return $http({
+      method: 'GET',
+      url: '/wait'
+    })
+    .then (function (resp) {
+      restaurantWaitTimes = resp.data;
+      var data = [];
+      for (var i = 0; i < restaurantWaitTimes.length; i++) {
+        // parse times yo
+      }
+      displayGraph(id, placename, data);
+    });
+  }
+
+  displayGraph = function (id, placename, data) {
     // append graph to id="graph-link" in the infowindow using highcharts
     $('#graph-link').highcharts({
       title: {
@@ -258,20 +275,6 @@ angular.module('nomNow.services', [])
     });
   }
 
-  function getOneRestaurantWaitTime (id, placename, $scope) {
-    return $http({
-      method: 'GET',
-      url: '/wait'
-    })
-    .then (function (resp) {
-      restaurantWaitTimes = resp.data;
-      for (var i = 0; i<resp.data.length; i++) {
-        getRestaurantLocation(resp.data[i]);
-      }
-      displayGraph(id, placename, data);
-    });
-  }
-
   return {
     createMap: createMap,
     createMarker: createMarker,
@@ -283,8 +286,7 @@ angular.module('nomNow.services', [])
     displayInfo: displayInfo,
     getweb:getweb,
     centerMap: centerMap,
-    map: map,
-    displayGraph: displayGraph
+    map: map
   }
 });
 

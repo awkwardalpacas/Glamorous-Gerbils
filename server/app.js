@@ -95,6 +95,9 @@ app.post('/testing', function(req, res) {
   // right now, req.query.phoneNumber has a 1 at the beginning, i.e. '10123456789', for the country code that tropo requires.
   // make sure to match the phone number to the format of the numbers stored in our database.
   console.log('The wait is '+time+' minutes.  We called the phone number '+req.query.phoneNumber+'.')
+
+  db.addCalledReport(req.query.phoneNumber, time);
+
   res.end('test')
 })
 

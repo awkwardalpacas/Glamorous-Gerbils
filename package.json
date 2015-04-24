@@ -1,6 +1,6 @@
 {
-  "name": "nomNow",
-  "version": "1.0.0",
+  "name": "nomNow2.0",
+  "version": "2.0.0",
   "description": "Skip the lines, not lunch",
   "main": "/server/app.js",
   "scripts": {

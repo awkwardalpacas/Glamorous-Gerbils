@@ -12,6 +12,7 @@ Josh Benson [Josh's Github profile](https://github.com/joshuabenson)
 
 Stephanie Foskitt [Stephanie's Github profile](https://github.com/SFoskitt)
 
+
 NomNow 1.0 information:
 ----------------------
 
@@ -26,7 +27,7 @@ Built by [Phil Dornfeld](https://github.com/phillydorn), [Pat Dalberg](https://g
 3. Ideas for Extension
 
 # 1. Concept
-NomNow is a web application for crowdsourcing wait times at restaurants. When at a restaurant, anyone can submit a wait time, and all the reported wait times are pooled and used to create a map which shows the average reported wait time for each restaurant.
+NomNow2.0 is a web application for crowdsourcing wait times at restaurants. When at a restaurant, anyone can submit a wait time, and all the reported wait times are pooled and used to create a map which shows the average reported wait time for each restaurant.
 
 # 2. Stack
 

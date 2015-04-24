@@ -250,27 +250,34 @@ angular.module('nomNow.services', [])
         return Date.parse(a.created_at) - Date.parse(b.created_at);
       });
 
-      var data = [];
-
       // twelve hours are currently hardcoded for each restaurant
       // future implementation: calculate based on opening/closing times
       var startDate = new Date(restaurantInfo[0].created_at);
-      var nextDate = new Date().setDate(startDate.getDate() + 1);
-      console.log('startDate, nextDate': startDate, nextDate);
 
-      var currentDateIdx = 0;
-      var currentHour = [];
-      var twelveHours = [];
+      var hours = {};
       for (var i = 0; i < restaurantInfo.length; i++) {
-        if ( !new Date(restaurantInfo[i].created_at).getDate() < nextDate ) {
-          var next = nextDate.getDate();
-          startDate.setDate(next);
-          nextDate.setDate(next + 1);
-          currentDateIdx++;
-        }
+        var currentDate = new Date(restaurantInfo[i].created_at);
+        var currentHour = currentDate.getHours();
         
-        currentHour.push(restaurantInfo[currentDateIdx].wait_time);
+        if ( hours[currentHour] ) {
+          hours[currentHour].push(restaurantInfo[i].wait_time);
+        } else {
+          hours[currentHour] = [restaurantInfo[i].wait_time];
+        }
       }
+
+      console.log("hours: ", hours);
+
+      var data = [];
+
+      for ( hour in hours ) {
+        var sum = hours[hour].reduce(function (a, b) {
+          return a + b;
+        });
+
+        data.push( sum / (hour.length) );
+      }
+
       displayGraph(id, placename, data);
     });
   }

@@ -246,12 +246,32 @@ angular.module('nomNow.services', [])
       }
     })
     .then (function (resp) {
-      console.log(resp);
-      // var data = [];
-      // for (var i = 0; i < restaurantWaitTimes.length; i++) {
-        // parse times yo
-      // }
-      // displayGraph(id, placename, data);
+      var restaurantInfo = resp.data.sort(function(a, b){
+        return Date.parse(a.created_at) - Date.parse(b.created_at);
+      });
+
+      var data = [];
+
+      // twelve hours are currently hardcoded for each restaurant
+      // future implementation: calculate based on opening/closing times
+      var startDate = new Date(restaurantInfo[0].created_at);
+      var nextDate = new Date().setDate(startDate.getDate() + 1);
+      console.log('startDate, nextDate': startDate, nextDate);
+
+      var currentDateIdx = 0;
+      var currentHour = [];
+      var twelveHours = [];
+      for (var i = 0; i < restaurantInfo.length; i++) {
+        if ( !new Date(restaurantInfo[i].created_at).getDate() < nextDate ) {
+          var next = nextDate.getDate();
+          startDate.setDate(next);
+          nextDate.setDate(next + 1);
+          currentDateIdx++;
+        }
+        
+        currentHour.push(restaurantInfo[currentDateIdx].wait_time);
+      }
+      displayGraph(id, placename, data);
     });
   }
 

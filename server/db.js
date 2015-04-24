@@ -238,7 +238,6 @@ exports.getAllWaitsforOneRestaurant = function(g_id, cb){
 
     if(!err){
       connection.query(getAllWaitsQuery, g_id, function(err,results){
-        console.log('database is returning these results: ', results);
         if(!err){
           cb(results);
         }

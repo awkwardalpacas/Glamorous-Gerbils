@@ -29,9 +29,7 @@ app.post('/wait', function (req, res) {
 
   // if oneFlag is passed in as true, get wait times for one restaurant
   if ( req.body.oneFlag ) {
-    console.log('request: ', req.body);
     db.getAllWaitsforOneRestaurant(req.body.id, function (results) {
-      console.log("results in server's app.js: ", results);
       res.send(results);
     });
   }

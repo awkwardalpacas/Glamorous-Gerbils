@@ -1,6 +1,8 @@
 body {
-  background-color: #f8f8f8;
-  padding-top: 70px;
+
+  background-color: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .container {
@@ -8,7 +10,7 @@ body {
 }
 
 .navbar-brand {
-  font-size: 32px;
+  font-size: 24px;
 }
 
 .container-fluid {
@@ -45,17 +47,18 @@ body {
   height: 100%;
 }
 
-.autosearch {
-  left:-200px;
-  top: 20px;
-}
-
 p {
-  margin: 20px;
+  background-color: none;
+  margin: 0px;
 }
 
 .waittext{
   font-size: 20px
+}
+
+.form-control {
+  height: 45px;
+  z-index: 2000;
 }
 
 .restaurants {

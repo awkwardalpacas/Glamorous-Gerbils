@@ -42,6 +42,10 @@ angular.module('nomNow.services', [])
       } else {
         // document.getElementById('autocomplete').placeholder = 'Not Found, Try Again';
       }
+      //checks place to see if it is restaurant...
+      //if it is, adds it to the database, and displays a blank marker over place
+
+
   }
   //Gets users current position
   var getPosition = function () {
@@ -126,7 +130,7 @@ angular.module('nomNow.services', [])
           location: myloc,
           // radius: 500,
           rankBy: google.maps.places.RankBy.DISTANCE,
-          types: ['restaurant','meal_takeaway']
+          types: ['restaurant','meal_takeaway','cafe','bar']
         };
       // if(byname){
       //   var request = {

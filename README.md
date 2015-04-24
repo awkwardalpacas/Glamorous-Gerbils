@@ -1,6 +1,14 @@
 # NomNow 2.0
 *Skip lines, not lunch*
 
+Version 2.0 offers the following updates, bug fixes, and features:
+
+- Map can be re-centered based on Search Box = search for address or establishment name
+- Restaurants provided in the "Report Wait Times" feature are the five closest to the center of the map
+- 12,000 test data reports over 20 restaurants generated for demonstration purposes
+- NomNow2.0 integrates with Tropo API.  This calls a restaurant, records a response, transcribes the response, parses the wait time integer, and stores the information as a new report in the database.
+
+
 Contributors
 ------------
 

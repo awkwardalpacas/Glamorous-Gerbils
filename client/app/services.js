@@ -229,7 +229,40 @@ angular.module('nomNow.services', [])
   }
 
   var displayGraph = function (placename) {
-    // look place up in db to get avg wait times
+    // look place up in db to get avg wait times --> to do this, i need the right SQL query!
+    // can use $http to GET
+    // append graph below / to id="graph-link" in the infowindow
+    var graph = angular.element('<div id="graph"></div>');
+    $('#graph').highcharts({
+      title: {
+        text: 'Average Wait for the Past 5 Days',
+        x: -20
+      },
+      subtitle: {
+        text: 'for ' + placename,
+        x: -20
+      },
+      xAxis: {
+        categories: ['8AM', '9AM', '10AM', '11AM', '12AM', '1PM', '2PM', '3PM', '4PM', '5PMM', '6PM', '7PM']
+      },
+      yAxis: {
+        title: {
+          text: 'Wait (min)'
+        }
+      },
+      series: [{
+        name: 'Karen', data: 10
+      },
+      {
+        name: 'Josh', data: 20
+      },
+      {
+        name: 'Stephanie', data: 15
+      },
+      {
+        name: 'Adam', data: 30
+      }]
+    });
   }
 
   var getweb = function(id,cb){

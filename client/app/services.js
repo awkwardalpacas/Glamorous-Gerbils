@@ -212,8 +212,8 @@ angular.module('nomNow.services', [])
       var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />Wait time is ' + wait +
         ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
-        '<a href = "' + place.website + '">' + site + '</a>' +
-        '<button id="graph-link" ng-click="displayGraph(' + place.google_id + ', ' + place.name + ')" href="">5-Day Wait Time Average</button>';
+        '<a href = "' + place.website + '">' + site + '</a><br />' +
+        '<button id="graph-link" data-id="' + place.google_id + '", data-name="' + place.name + '" href="">5-Day Wait Time Average</button>'
       });
     } else {
         var infowindow = new google.maps.InfoWindow({

@@ -1,4 +1,4 @@
-angular.module('nomNow.services', [])
+angular.module('nomNow.services', ['nomNow'])
 
 
 .factory('Map', function ($http, $q) {
@@ -211,7 +211,8 @@ angular.module('nomNow.services', [])
       var infowindow = new google.maps.InfoWindow({
         content: '<p>' + place.name+'<br />Wait time is ' + wait +
         ' minutes.<br />Information is '+ elapsed+ ' minutes old.</p>' +
-        '<a href = "' + place.website + '">' + site + '</a>'
+        '<a href = "' + place.website + '">' + site + '</a>' +
+        '<button id="graph-link" ng-click="displayGraph(' + place.google_id + ', ' + place.name + ')" href="">5-Day Wait Time Average</button>';
       });
     } else {
         var infowindow = new google.maps.InfoWindow({
@@ -228,12 +229,17 @@ angular.module('nomNow.services', [])
     });
   }
 
-  var displayGraph = function (placename) {
+  var displayGraph = function (id, placename) {
+    // side note:  forgot to include phone numbers in restaurant.txt fake data
+
     // look place up in db to get avg wait times --> to do this, i need the right SQL query!
-    // can use $http to GET
+    // SELECT AVG(wait_time) FROM reports WHERE ;
+    // can't just use fetchWaitTimes unless I want to parse by hour myself
+
     // append graph below / to id="graph-link" in the infowindow
-    var graph = angular.element('<div id="graph"></div>');
-    $('#graph').highcharts({
+    var graph = document.getElementById('graph-link');
+    var angularGraphElt = angular.element(graph);
+    angularGraphElt.highcharts({
       title: {
         text: 'Average Wait for the Past 5 Days',
         x: -20
@@ -282,7 +288,7 @@ angular.module('nomNow.services', [])
     displayInfo: displayInfo,
     getweb:getweb,
     centerMap: centerMap,
-    map: map
+    map: map,
     displayGraph: displayGraph
   }
 })

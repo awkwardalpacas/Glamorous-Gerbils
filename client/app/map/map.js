@@ -38,7 +38,8 @@ nomNow.controller('mapController', function ($scope, $location, $q, Map) {
     Map.findWaitTimes($scope)
   }
 
-  $scope.displayGraph = function(placename) {
+  $scope.displayGraph = function(id, placename) {
+    console.log('displayGraph was called in map controller (map.js)!');
     Map.displayGraph(placename);
   }
 

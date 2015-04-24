@@ -7,7 +7,7 @@ angular.module('nomNow.services', [])
   var typeFilter = ['restaurant','meal_takeaway','cafe','bar'];
   var map;
   var mapOptions = {
-    zoom: 15,
+    zoom: 17,
     center: {}
   };
   var privwindow = false;
@@ -38,7 +38,7 @@ angular.module('nomNow.services', [])
     // var place = scope.gPlace.getPlace();
       if (place.geometry) {
         map.panTo(place.geometry.location);
-        map.setZoom(15);
+        map.setZoom(17);
         // search();
       } else {
         // document.getElementById('autocomplete').placeholder = 'Not Found, Try Again';
